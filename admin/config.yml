@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: yourusername/your-repo-name  # replace this
+  repo: arashfamiilirani  # replace this
   branch: main
 
 media_folder: "assets"
