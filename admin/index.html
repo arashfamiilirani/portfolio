@@ -7,17 +7,6 @@
   <link rel="cms-config-url" type="text/yaml" href="https://www.arashfamiilirani.com/admin/config.yml">
 </head>
 <body>
-  <div id="nc-root"></div>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    // This script listens for the "Success" message and 
-    // forces the dashboard to load if it gets stuck.
-    window.addEventListener("message", (event) => {
-      if (event.data && event.data.includes("authorization:github:success")) {
-        console.log("Login Success detected! Refreshing...");
-        setTimeout(() => { window.location.reload(); }, 500);
-      }
-    }, false);
-  </script>
 </body>
 </html>
