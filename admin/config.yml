@@ -1,20 +1,26 @@
 backend:
   name: git-gateway
-  branch: main # Or master, depending on what your main GitHub branch is called
+  branch: main
 
-media_folder: "uploads" # Where your audio and video files will be saved in GitHub
+media_folder: "uploads"
 public_folder: "/uploads"
 
 collections:
-  - name: "projects"
-    label: "Portfolio Projects"
-    folder: "content/projects"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - {label: "Project Title", name: "title", widget: "string"}
-      - {label: "Description", name: "body", widget: "markdown"}
-      - {label: "YouTube Link", name: "youtube_url", widget: "string", required: false}
-      - {label: "SoundCloud Link", name: "soundcloud_url", widget: "string", required: false}
-      - {label: "Instagram Link", name: "instagram_url", widget: "string", required: false}
-      - {label: "Audio/Video Upload", name: "media_file", widget: "file", required: false}
+  - name: "website_data"
+    label: "My Website Content"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "portfolio"
+        label: "Portfolio Projects"
+        file: "data.json"
+        fields:
+          - label: "My Projects"
+            name: "projects"
+            widget: "list"
+            fields:
+              - {label: "Project Title", name: "title", widget: "string"}
+              - {label: "Short Description", name: "desc", widget: "text"}
+              - {label: "Video/Audio Link (YouTube, SoundCloud, etc.)", name: "link", widget: "string", required: false}
+              - {label: "Direct Upload (Audio/Video)", name: "file_upload", widget: "file", required: false}
