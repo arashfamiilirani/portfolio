@@ -13,8 +13,8 @@ export default async function handler(req, res) {
   
   res.send(`
     <script>
-      // The "*" below allows the "Success" message to jump from the popup 
-      // back to your main window even if the "www" is missing.
+      // Using "*" ensures the message reaches your main window 
+      // regardless of the "www" or "non-www" address.
       window.opener.postMessage("authorization:github:success:${JSON.stringify(data)}", "*");
       window.close();
     </script>
