@@ -1,105 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arash Irani</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0a0a0a;
-  color: #fff;
-}
-
-section {
-  padding: 80px 20px;
-  max-width: 1000px;
-  margin: auto;
-}
-
-#hero {
-  text-align: center;
-  padding: 120px 20px;
-}
-
-#hero h1 {
-  font-size: 4rem;
-  margin: 0;
-}
-
-#hero p {
-  color: #aaa;
-  font-size: 1.5rem;
-}
-
-.projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.card {
-  background: #111;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.card iframe {
-  width: 100%;
-  height: 200px;
-  border: none;
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-</style>
-</head>
-
-<body>
-
-<section id="hero">
-  <h1>Arash Irani</h1>
-  <p>Sound Artist / Composer / Sound Designer</p>
-</section>
-
-<section>
-  <h2>Projects</h2>
-  <div class="projects" id="projects"></div>
-</section>
-
-<section>
-  <h2>About</h2>
-  <p>Electroacoustic composer and sound designer focused on immersive sonic experiences.</p>
-</section>
-
-<section>
-  <h2>Contact</h2>
-  <p>Email: your@email.com</p>
-</section>
-
 <script>
-fetch('projects/projects.json')
-.then(res => res.json())
-.then(data => {
-  const container = document.getElementById('projects');
+fetch('projects/')
+.then(() => {
+  fetch('https://api.github.com/repos/arashfamiilirani/Portfolio/contents/projects')
+  .then(res => res.json())
+  .then(files => {
+    const container = document.getElementById('projects');
 
-  data.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'card';
+    files.forEach(file => {
+      if(file.name.endsWith('.json')) {
+        fetch(file.download_url)
+        .then(res => res.json())
+        .then(p => {
 
-    div.innerHTML = `
-      <h3>${p.title}</h3>
-      <p>${p.description}</p>
-      <iframe src="${p.media_url.replace('watch?v=', 'embed/')}" allowfullscreen></iframe>
-    `;
+          let embed = "";
 
-    container.appendChild(div);
+          if (p.media_url.includes("youtube")) {
+            embed = `<iframe src="${p.media_url.replace('watch?v=', 'embed/')}" allowfullscreen></iframe>`;
+          } else if (p.media_url.includes("soundcloud")) {
+            embed = `<iframe src="https://w.soundcloud.com/player/?url=${p.media_url}"></iframe>`;
+          }
+
+          const div = document.createElement('div');
+          div.className = 'card';
+
+          div.innerHTML = `
+            <h3>${p.title}</h3>
+            <p>${p.description}</p>
+            ${embed}
+          `;
+
+          container.appendChild(div);
+        });
+      }
+    });
   });
 });
 </script>
-
-</body>
-</html>
