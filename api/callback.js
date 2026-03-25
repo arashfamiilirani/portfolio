@@ -10,6 +10,8 @@ export default async function handler(req, res) {
     }),
   });
   const data = await response.json();
+  
+  // This section below is what we are fixing:
   res.send(`
     <script>
       window.opener.postMessage("authorization:github:success:${JSON.stringify(data)}", "*");
