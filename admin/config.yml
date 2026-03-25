@@ -1,13 +1,11 @@
 backend:
   name: github
-  repo: arashfamiilirani
+  repo: arashfamiilirani/Portfolio
   branch: main
   base_url: https://www.arashfamiilirani.com
   auth_endpoint: api/auth
-  site_domain: www.arashfamiilirani.com
-publish_mode: simple # Add this line
-show_preview_links: false # Add this line to stop "appendChild" errors
 
+publish_mode: simple
 media_folder: "assets/img"
 public_folder: "/assets/img"
 
@@ -20,5 +18,5 @@ collections:
     fields:
       - { label: "Project Title", name: "title", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["Sound Design", "Composition", "Audio Engineering"] }
-      - { label: "Media Link (SoundCloud or YouTube)", name: "link", widget: "string" }
-      - { label: "Short Description", name: "body", widget: "markdown" }
+      - { label: "Media Link", name: "link", widget: "string" }
+      - { label: "Description", name: "body", widget: "markdown" }
