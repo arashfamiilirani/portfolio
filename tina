@@ -1,0 +1,12 @@
+collections:
+  - name: "works"
+    label: "My Sound Works"
+    folder: "content/works"
+    create: true
+    slug: "{{title}}"
+    fields:
+      - { label: "Project Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Sound Design", "Composition", "Audio Engineering"] }
+      - { label: "YouTube or SoundCloud URL", name: "media_url", widget: "string" }
+      - { label: "Description", name: "body", widget: "markdown" }
+      - { label: "Thumbnail Image", name: "image", widget: "image" }
