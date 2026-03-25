@@ -1,26 +1,17 @@
 backend:
   name: git-gateway
-  branch: main
+  branch: main # Double check if your branch is named 'main' or 'master'
 
 media_folder: "uploads"
 public_folder: "/uploads"
 
 collections:
-  - name: "website_data"
-    label: "My Website Content"
-    delete: false
-    editor:
-      preview: false
-    files:
-      - name: "portfolio"
-        label: "Portfolio Projects"
-        file: "data.json"
-        fields:
-          - label: "My Projects"
-            name: "projects"
-            widget: "list"
-            fields:
-              - {label: "Project Title", name: "title", widget: "string"}
-              - {label: "Short Description", name: "desc", widget: "text"}
-              - {label: "Video/Audio Link (YouTube, SoundCloud, etc.)", name: "link", widget: "string", required: false}
-              - {label: "Direct Upload (Audio/Video)", name: "file_upload", widget: "file", required: false}
+  - name: "projects"
+    label: "My Portfolio"
+    folder: "projects" # This will create a 'projects' folder in your GitHub
+    create: true
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "body", widget: "markdown"}
+      - {label: "Link", name: "link", widget: "string", required: false}
+      - {label: "Upload File", name: "file", widget: "file", required: false}
