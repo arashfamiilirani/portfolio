@@ -10,18 +10,20 @@ export default async function handler(req, res) {
     }),
   });
   const data = await response.json();
-  const content = JSON.stringify(data);
 
   res.send(`
-    <html>
-    <body>
-    <script>
-      (function() {
-        window.opener.postMessage("authorization:github:success:" + '${content}', "*");
-        window.close();
-      })();
-    </script>
-    </body>
-    </html>
+    <html><body><script>
+    (function() {
+      function recieveMessage(e) {
+        console.log("Sending message back to opener...");
+        window.opener.postMessage(
+          'authorization:github:success:${JSON.stringify(data)}',
+          e.origin
+        );
+      }
+      window.addEventListener("message", recieveMessage, false);
+      window.opener.postMessage("authorizing:github", "*");
+    })()
+    </script></body></html>
   `);
 }
