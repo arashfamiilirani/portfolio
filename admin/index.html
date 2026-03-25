@@ -10,9 +10,11 @@
   <div id="nc-root"></div>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    // This force-reloads if the login stays stuck
+    // This script listens for the "Success" message and 
+    // forces the dashboard to load if it gets stuck.
     window.addEventListener("message", (event) => {
-      if (event.data === "authorizing:github:success") {
+      if (event.data && event.data.includes("authorization:github:success")) {
+        console.log("Login Success detected! Refreshing...");
         setTimeout(() => { window.location.reload(); }, 500);
       }
     }, false);
