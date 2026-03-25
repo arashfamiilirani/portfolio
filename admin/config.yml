@@ -1,9 +1,12 @@
 backend:
   name: github
-  repo: your-github-username/your-repo-name
+  repo: arashfamiilirani
   branch: main
-  base_url: https://arashfamiilirani.vercel.app # Your actual URL
+  base_url: https://www.arashfamiilirani.com
   auth_endpoint: api/auth
+  site_domain: www.arashfamiilirani.com
+publish_mode: simple # Add this line
+show_preview_links: false # Add this line to stop "appendChild" errors
 
 media_folder: "assets/img"
 public_folder: "/assets/img"
