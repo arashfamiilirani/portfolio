@@ -1,41 +1,29 @@
 backend:
   name: github
-  repo: arashfamiilirani/portfolio # Ensure this matches your GitHub repo name
+  repo: arashfamiilirani/portfolio
   branch: main
+  # Note: If you are on Vercel, you need a proxy. 
+  # This uses a public one to get you back in.
   base_url: https://www.arashfamiilirani.com
-  auth_endpoint: https://gatekeeper-v2.vercel.app/api/auth # This is the "Secret Sauce" for Vercel
+  auth_endpoint: https://gatekeeper-v2.vercel.app/api/auth 
 
 media_folder: "assets/img"
 public_folder: "/assets/img"
 
 collections:
-  - name: "pages"
-    label: "Editorial Layout"
+  - name: "content"
+    label: "Website Content"
     files:
-      - name: "index"
-        label: "Home Page"
+      - name: "home"
+        label: "Homepage & Bio"
         file: "content/settings.json"
         fields:
-          - { label: "Site Logo Text", name: "site_name", widget: "string", required: false }
-          
-          - label: "Modules (Add text or media)"
-            name: "modules"
+          - { label: "Site Name", name: "site_name", widget: "string" }
+          - { label: "Main Heading (Huge Text)", name: "heading", widget: "string" }
+          - { label: "Bio / Intro Text", name: "bio", widget: "markdown" }
+          - label: "My Work (Videos/Audio)"
+            name: "projects"
             widget: "list"
-            required: false
-            types:
-              - label: "Editorial Text Block"
-                name: "text_block"
-                fields:
-                  - { label: "Nav Label (For Header)", name: "nav_label", widget: "string", required: false }
-                  - { label: "Huge Heading", name: "heading", widget: "string", required: false }
-                  - { label: "Body Copy", name: "body", widget: "markdown", required: false }
-                  - { label: "Layout Width", name: "width", widget: "select", options: ["Full", "Wide", "Narrow"], default: "Wide" }
-
-              - label: "Media Collection"
-                name: "media_block"
-                fields:
-                  - { label: "Nav Label (For Header)", name: "nav_label", widget: "string", required: false }
-                  - { label: "Grid Columns", name: "cols", widget: "select", options: ["1", "2", "3"], default: "1" }
-                  - label: "Items", name: "items", widget: "list", fields:
-                    - { label: "YouTube/SoundCloud URL", name: "url", widget: "string", required: false }
-                    - { label: "Caption", name: "caption", widget: "string", required: false }
+            fields:
+              - { label: "Title/Caption", name: "title", widget: "string" }
+              - { label: "YouTube or SoundCloud URL", name: "url", widget: "string" }
