@@ -10,35 +10,20 @@ public_folder: "/assets/img"
 
 collections:
   - name: "settings"
-    label: "Site Builder"
+    label: "Site Editor"
     files:
       - name: "general"
-        label: "Header & Content"
+        label: "Main Content"
         file: "content/settings.json"
         fields:
-          - { label: "Site Name", name: "site_name", widget: "string" }
+          - { label: "Your Name", name: "name", widget: "string", required: false }
           
-          # MENU BUILDER
-          - label: "Navigation Links"
-            name: "nav_links"
-            widget: "list"
-            summary: "{{fields.label}}"
-            fields:
-              - { label: "Link Label", name: "label", widget: "string", hint: "e.g., About" }
-              - { label: "Section ID", name: "id", widget: "string", hint: "e.g., about (lowercase, no spaces)" }
-
-          # SECTION BUILDER
-          - label: "Page Sections"
-            name: "sections"
-            widget: "list"
-            summary: "{{fields.title}}"
-            fields:
-              - { label: "Section Title", name: "title", widget: "string" }
-              - { label: "Section ID", name: "id", widget: "string", hint: "Must match the Section ID in your nav links" }
-              - { label: "Size", name: "size", widget: "select", options: ["Small", "Large", "Full Width"] }
-              - { label: "Content (Bio or Text)", name: "body", widget: "markdown" }
-              - { label: "Video/Audio URL", name: "embed_url", widget: "string", required: false }
+          # SHOW/HIDE TOGGLES
+          - { label: "Show Bio Section?", name: "show_bio", widget: "boolean", default: true }
+          - { label: "Bio Text", name: "bio", widget: "text", required: false }
           
-          - { label: "Accent Color", name: "accent", widget: "color" }
-          - { label: "Custom CSS", name: "css", widget: "code", default_language: "css" }
+          - { label: "Show Video Section?", name: "show_video", widget: "boolean", default: false }
+          - { label: "Video/Audio Embed Link", name: "video_url", widget: "string", required: false }
           
+          - { label: "Accent Color", name: "accent", widget: "color", default: "#f1f704" }
+          - { label: "Custom CSS", name: "css", widget: "code", required: false }
