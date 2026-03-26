@@ -10,14 +10,14 @@ public_folder: "/assets/img"
 
 collections:
   - name: "pages"
-    label: "Editorial Content"
+    label: "Editorial Layout"
     files:
       - name: "home"
         label: "Home Page"
         file: "content/settings.json"
         fields:
           - { label: "Site Logo Name", name: "site_name", widget: "string" }
-          - label: "Page Modules"
+          - label: "Layout Modules"
             name: "modules"
             widget: "list"
             summary: '{{fields.type}}'
@@ -26,10 +26,10 @@ collections:
                 name: "about_module"
                 fields:
                   - { label: "Module Label", name: "title", widget: "string" }
-                  - label: "Body Copy (Visual Editor)"
+                  - label: "Body Copy"
                     name: "body"
                     widget: "markdown"
-                    # This forces it to feel like Google Docs (WYSIWYG)
+                    # Forces the "Google Doc" Visual mode
                     default_view: "visual"
                     minimal: false
                     buttons: ["heading-one", "heading-two", "bold", "italic", "code", "link", "quote", "bulleted-list", "numbered-list"]
