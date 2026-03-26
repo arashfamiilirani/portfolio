@@ -4,127 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
     <style>
-        :root { --bg: #030303; --text: #f5f5f5; --dim: #888; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; font-weight: 300; }
+        :root { --bg: #080808; --text: #ffffff; --dim: #777; }
         
-        /* EDITORIAL HEADER */
-        header { 
-            position: sticky; top: 0; z-index: 1000; padding: 25px 40px;
-            background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(255,255,255,0.05);
+        * { box-sizing: border-box; }
+        body { 
+            background: var(--bg); color: var(--text); 
+            font-family: 'Inter', sans-serif; margin: 0; 
+            line-height: 1.6; -webkit-font-smoothing: antialiased;
         }
 
-        h1 { font-size: 1.1rem; letter-spacing: 4px; text-transform: uppercase; margin: 0; font-weight: 600; }
-        
-        nav { display: flex; gap: 30px; }
-        nav a { color: var(--dim); text-decoration: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-        nav a:hover { color: var(--text); }
+        /* YULIA MAHR STYLE HEADER */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 30px 50px; display: flex; justify-content: space-between;
+            align-items: center; background: rgba(8,8,8,0.9);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
 
-        /* MODULAR LAYOUT SYSTEM */
-        .container { max-width: 1400px; margin: 100px auto; padding: 0 40px; display: flex; flex-direction: column; gap: 120px; }
-        
-        .module-wrapper { display: flex; width: 100%; }
-        .module-content { flex-shrink: 0; }
+        .logo { font-size: 0.85rem; letter-spacing: 5px; text-transform: uppercase; font-weight: 600; }
+        nav { display: flex; gap: 40px; }
+        nav a { color: var(--dim); text-decoration: none; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        nav a:hover { color: #fff; }
 
-        /* Typography styling for the Markdown text */
-        .rich-text p { line-height: 1.8; font-size: 1.1rem; color: #ccc; margin-bottom: 1.5em; }
-        .rich-text h2 { font-size: 2.5rem; font-weight: 400; margin-bottom: 0.5em; letter-spacing: -0.02em; }
-        .rich-text a { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+        /* CONTENT CANVAS */
+        .container { max-width: 1400px; margin: 0 auto; padding: 180px 50px 100px; }
         
-        /* DYNAMIC MEDIA GRIDS */
-        .media-grid { display: grid; gap: 40px; width: 100%; }
-        .grid-1 { grid-template-columns: 1fr; }
-        .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .section { margin-bottom: 180px; width: 100%; }
         
-        .media-item iframe { width: 100%; aspect-ratio: 16 / 9; border: none; background: #111; }
-        .caption { font-size: 0.8rem; color: var(--dim); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        /* TYPOGRAPHY MODULE */
+        .editorial-text { max-width: 900px; margin-bottom: 60px; }
+        .editorial-text h2 { font-size: 3.5rem; font-weight: 200; letter-spacing: -0.04em; margin-bottom: 40px; line-height: 1.1; }
+        .editorial-text .body-content { font-size: 1.15rem; font-weight: 300; color: #ccc; line-height: 1.8; }
+        .center { margin-left: auto; margin-right: auto; text-align: center; }
 
-        @media (max-width: 900px) {
-            .module-content { width: 100% !important; }
-            .media-grid { grid-template-columns: 1fr !important; }
-            header { flex-direction: column; gap: 20px; }
+        /* MEDIA MODULE */
+        .gallery { display: grid; gap: 60px; width: 100%; }
+        .cols-1 { grid-template-columns: 1fr; }
+        .cols-2 { grid-template-columns: 1fr 1fr; }
+        
+        .media-item { width: 100%; }
+        .media-item iframe { width: 100%; aspect-ratio: 16/9; border: none; background: #000; }
+        .caption { margin-top: 15px; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); }
+
+        @media (max-width: 800px) {
+            header { padding: 20px; flex-direction: column; gap: 15px; }
+            .editorial-text h2 { font-size: 2.2rem; }
+            .cols-2 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 id="site-name">PORTFOLIO</h1>
-    <nav id="site-menu"></nav>
+    <div class="logo" id="site-logo">PORTFOLIO</div>
+    <nav id="main-nav"></nav>
 </header>
 
-<main class="container" id="page-content"></main>
+<main class="container" id="content-root"></main>
 
 <script>
-    async function loadSite() {
+    async function init() {
         try {
             const res = await fetch('/content/settings.json');
             const data = await res.json();
+            
+            if(data.site_name) document.getElementById('site-logo').textContent = data.site_name;
 
-            if(data.site_name) document.getElementById('site-name').textContent = data.site_name;
+            const nav = document.getElementById('main-nav');
+            const root = document.getElementById('content-root');
 
-            const menu = document.getElementById('site-menu');
-            const content = document.getElementById('page-content');
+            (data.modules || []).forEach((m, i) => {
+                const id = 'sec-' + i;
+                
+                // Add to Nav
+                if(m.menu_title) nav.innerHTML += `<a href="#${id}">${m.menu_title}</a>`;
 
-            (data.modules || []).forEach((mod, index) => {
-                const modId = 'module-' + index;
+                // Create Section
+                const div = document.createElement('div');
+                div.className = 'section';
+                div.id = id;
 
-                // 1. Build Navigation Menu
-                if(mod.title) {
-                    menu.innerHTML += `<a href="#${modId}">${mod.title}</a>`;
+                if(m.type === 'text_block') {
+                    div.innerHTML = `
+                        <div class="editorial-text ${m.align === 'Center' ? 'center' : ''}">
+                            ${m.heading ? `<h2>${m.heading}</h2>` : ''}
+                            <div class="body-content">${marked.parse(m.body || '')}</div>
+                        </div>`;
+                } else if(m.type === 'media_block') {
+                    let itemsHtml = (m.items || []).map(item => `
+                        <div class="media-item">
+                            <iframe src="${item.url}" style="${item.url.includes('soundcloud') ? 'height:166px; aspect-ratio:auto;' : ''}"></iframe>
+                            ${item.caption ? `<div class="caption">${item.caption}</div>` : ''}
+                        </div>`).join('');
+                    
+                    div.innerHTML = `<div class="gallery cols-${m.cols}">${itemsHtml}</div>`;
                 }
-
-                // 2. Interpret Layout Settings
-                let widthRaw = mod.width || "100%";
-                let widthCSS = "100%";
-                if(widthRaw.includes("50%")) widthCSS = "50%";
-                if(widthRaw.includes("75%")) widthCSS = "75%";
-
-                let alignRaw = mod.alignment || "Left";
-                let alignCSS = "flex-start";
-                if(alignRaw === "Center") alignCSS = "center";
-                if(alignRaw === "Right") alignCSS = "flex-end";
-                if(alignRaw === "Center" && widthCSS !== "100%") alignCSS = "center"; // Flexbox centering
-
-                let html = `<section class="module-wrapper" id="${modId}" style="justify-content: ${alignCSS}; text-align: ${alignRaw.toLowerCase()};">`;
-                html += `<div class="module-content" style="width: ${widthCSS};">`;
-
-                // 3. Render Text Module
-                if(mod.type === "text_module" && mod.body) {
-                    html += `<div class="rich-text">${marked.parse(mod.body)}</div>`;
-                }
-
-                // 4. Render Media Gallery Module
-                if(mod.type === "media_module" && mod.media_items) {
-                    let gridClass = "grid-2";
-                    if(mod.columns.includes("1")) gridClass = "grid-1";
-                    if(mod.columns.includes("3")) gridClass = "grid-3";
-
-                    html += `<div class="media-grid ${gridClass}">`;
-                    mod.media_items.forEach(item => {
-                        html += `<div class="media-item">`;
-                        // Auto-adjust height for SoundCloud vs YouTube
-                        let height = item.url.includes("soundcloud") ? "166" : "100%"; 
-                        html += `<iframe src="${item.url}" style="${item.url.includes("soundcloud") ? `height: ${height}px; aspect-ratio: auto;` : ''}"></iframe>`;
-                        if(item.caption) html += `<div class="caption">${item.caption}</div>`;
-                        html += `</div>`;
-                    });
-                    html += `</div>`;
-                }
-
-                html += `</div></section>`;
-                content.innerHTML += html;
+                
+                root.appendChild(div);
             });
-
-        } catch(e) { console.log("Ready for modules to be added in dashboard."); }
+        } catch(e) { console.error(e); }
     }
-    loadSite();
+    init();
 </script>
-
 </body>
 </html>
