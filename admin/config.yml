@@ -13,19 +13,35 @@ collections:
     label: "Site Editor"
     files:
       - name: "general"
-        label: "Edit Your Page"
+        label: "Build Your Pages"
         file: "content/settings.json"
         fields:
-          - { label: "Website Name", name: "site_name", widget: "string", required: false }
-          - { label: "Brand Color", name: "accent", widget: "color", default: "#f1f704", required: false }
+          - { label: "Website Name", name: "site_name", widget: "string", default: "Arash Irani" }
           
-          # THE NEW, EASY SECTION BUILDER
-          - label: "Page Sections"
-            name: "sections"
+          # THE MODULAR BUILDER
+          - label: "Page Modules (Add text, videos, or galleries)"
+            name: "modules"
             widget: "list"
             required: false
-            hint: "Click 'Add Page Sections' to create a new block on your website."
-            fields:
-              - { label: "Section Title (This automatically adds it to your Menu!)", name: "title", widget: "string", required: false }
-              - { label: "Content Editor", name: "body", widget: "markdown", hint: "👉 Click 'Rich Text' in the top right to use the Word-style editor!", required: false }
-              - { label: "Video/Audio Link (Optional)", name: "media_link", widget: "string", hint: "Paste a YouTube or SoundCloud URL here", required: false }
+            types:
+              # TOOL 1: THE TEXT FORMATTER
+              - label: "Text & Typography Module"
+                name: "text_module"
+                fields:
+                  - { label: "Menu Link Title (Optional)", name: "title", widget: "string", required: false }
+                  - { label: "Content", name: "body", widget: "markdown", hint: "Use 'Rich Text' mode for Bold, Italics, Links, and Headings." }
+                  - { label: "Module Width", name: "width", widget: "select", options: ["100% (Full Width)", "75% (Wide)", "50% (Half Page)"], default: "100% (Full Width)" }
+                  - { label: "Text Alignment", name: "alignment", widget: "select", options: ["Left", "Center", "Right"], default: "Left" }
+              
+              # TOOL 2: UNLIMITED MEDIA GRID
+              - label: "Media Gallery (Unlimited Videos/Audio)"
+                name: "media_module"
+                fields:
+                  - { label: "Menu Link Title (Optional)", name: "title", widget: "string", required: false }
+                  - { label: "Gallery Layout", name: "columns", widget: "select", options: ["1 Column (Massive)", "2 Columns (Grid)", "3 Columns (Compact)"], default: "2 Columns (Grid)" }
+                  - label: "Add Videos / Audio Tracks"
+                    name: "media_items"
+                    widget: "list"
+                    fields:
+                      - { label: "Embed URL (YouTube, Vimeo, SoundCloud)", name: "url", widget: "string" }
+                      - { label: "Caption (Optional)", name: "caption", widget: "string", required: false }
