@@ -3,7 +3,7 @@ backend:
   repo: arashfamiilirani/portfolio
   branch: main
   base_url: https://www.arashfamiilirani.com
-  auth_endpoint: api/auth
+  auth_endpoint: /api/auth
 
 publish_mode: simple
 media_folder: "assets/img"
