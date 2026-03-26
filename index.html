@@ -5,44 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arash Irani | Sound Artist & Designer</title>
     <style>
-    :root { 
-        --bg: #0a0a0a; 
-        --card: #121212; 
-        --accent: #0088ff; /* A clean studio blue */
-        --text: #d1d1d1; 
-    }
-    body { 
-        background: var(--bg); 
-        color: #fff; 
-        font-family: 'Courier New', monospace; /* Tech/Studio vibe */
-        margin: 0; 
-        padding: 5vw; 
-    }
-    header { 
-        border-bottom: 1px solid #222; 
-        margin-bottom: 60px; 
-        padding-bottom: 20px; 
-    }
-    .grid { 
-        display: grid; 
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
-        gap: 40px; 
-    }
-    .card { 
-        background: var(--card); 
-        border: 1px solid #1a1a1a; 
-        padding: 24px; 
-        transition: 0.3s; 
-    }
-    .card:hover { 
-        border-color: var(--accent); 
-    }
-    iframe { 
-        width: 100%; 
-        border: none; 
-        margin-top: 15px; 
-        aspect-ratio: 16/9; 
-    }
+  /* 1. PROFESSIONAL STUDIO THEME */
+  :root {
+    --bg: #050505;
+    --card-bg: #111;
+    --accent: #00ffcc; /* This will be overridden by your Dashboard color picker */
+    --text: #ececec;
+    --font-main: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 2. NAVIGATION BAR (Sophisticated & Clean) */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(5, 5, 5, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #222;
+    padding: 20px 5vw;
+    z-index: 1000;
+  }
+  
+  nav ul {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  nav a:hover {
+    color: var(--accent);
+  }
+
+  /* 3. SECTION SPACING */
+  section {
+    padding: 100px 5vw;
+    border-bottom: 1px solid #111;
+  }
+
+  h2 {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 50px;
+    text-transform: uppercase;
+  }
+
+  /* 4. PHOTOGRAPHY GRID */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: auto;
+    filter: grayscale(100%);
+    transition: 0.5s ease;
+  }
+
+  .photo-card:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.02);
+  }
 </style>
 </head>
 <body>
