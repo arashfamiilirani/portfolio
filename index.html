@@ -5,90 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arash Irani | Sound Artist & Designer</title>
     <style>
-  /* 1. PROFESSIONAL STUDIO THEME */
   :root {
-    --bg: #050505;
-    --card-bg: #111;
-    --accent: #00ffcc; /* This will be overridden by your Dashboard color picker */
-    --text: #ececec;
-    --font-main: 'Inter', -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --bg: #000000;
+    --panel: rgba(28, 28, 30, 0.7); /* Apple "Dark Mode" Panel Color */
+    --accent: #0071e3; /* Classic Apple Blue */
+    --text-main: #f5f5f7;
+    --text-dim: #86868b;
+    --glass-border: rgba(255, 255, 255, 0.1);
   }
 
   body {
     background-color: var(--bg);
-    color: var(--text);
-    font-family: var(--font-main);
-    line-height: 1.6;
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
     margin: 0;
-    padding: 0;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* 2. NAVIGATION BAR (Sophisticated & Clean) */
+  /* THE NAV PANEL (Apple-style Header) */
   nav {
-    position: sticky;
-    top: 0;
-    background: rgba(5, 5, 5, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid #222;
-    padding: 20px 5vw;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    background: var(--panel);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 10px 20px;
     z-index: 1000;
-  }
-  
-  nav ul {
     display: flex;
-    gap: 40px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    justify-content: space-around;
   }
 
   nav a {
-    color: var(--text);
+    color: var(--text-main);
     text-decoration: none;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: color 0.3s;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    opacity: 0.8;
+    transition: 0.3s;
   }
 
-  nav a:hover {
-    color: var(--accent);
-  }
+  nav a:hover { opacity: 1; color: var(--accent); }
 
-  /* 3. SECTION SPACING */
-  section {
-    padding: 100px 5vw;
-    border-bottom: 1px solid #111;
-  }
-
-  h2 {
-    font-family: var(--font-mono);
-    font-size: 1.5rem;
-    color: var(--accent);
-    margin-bottom: 50px;
-    text-transform: uppercase;
-  }
-
-  /* 4. PHOTOGRAPHY GRID */
-  .photo-grid {
+  /* THE BENTO GRID (The Professional Panel Layout) */
+  .container {
+    padding-top: 120px;
+    max-width: 1100px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(12, 1fr);
     gap: 20px;
   }
 
-  .photo-card img {
-    width: 100%;
-    height: auto;
-    filter: grayscale(100%);
-    transition: 0.5s ease;
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px; /* Precision Apple curve */
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .photo-card:hover img {
-    filter: grayscale(0%);
+  .card:hover {
     transform: scale(1.02);
   }
+
+  /* Sizing the Panels (Like a Pro Dashboard) */
+  .card-large { grid-column: span 8; height: 400px; }
+  .card-small { grid-column: span 4; height: 400px; }
+  .card-wide { grid-column: span 12; min-height: 200px; }
+
+  h1, h2, h3 {
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .tag {
+    background: rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    display: inline-block;
+  }
+
+  /* CV BUTTON */
+  .btn-cv {
+    background: var(--text-main);
+    color: #000;
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 20px;
+    transition: 0.3s;
+  }
+
+  .btn-cv:hover { background: var(--accent); color: #fff; }
 </style>
 </head>
 <body>
