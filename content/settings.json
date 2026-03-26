@@ -8,10 +8,21 @@
   "bio_text": " ",
   "roundness": "Apple Style",
   "show_bio": true,
-  "accent": "#dbeef0",
+  "blocks": [
+    {
+      "type": "video_block",
+      "width": "Full",
+      "url": ""
+    },
+    {
+      "type": "text_block",
+      "width": "Medium"
+    }
+  ],
+  "accent": "#a2cddf",
   "name": "Arash Famiilirani",
   "location": "Montreal",
-  "bg_style": "Studio Grey",
+  "bg_style": "Midnight",
   "show_video": true,
-  "blur_strength": "Heavy"
+  "blur_strength": "Light"
 }
