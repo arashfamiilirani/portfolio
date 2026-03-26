@@ -19,13 +19,14 @@ collections:
       preview: false
     files:
       - name: "general"
-        label: "Appearance"
+        label: "Appearance & Custom Code"
         file: "content/settings.json"
         fields:
           - { label: "Site Title", name: "site_title", widget: "string" }
           - { label: "Background Color", name: "bg_color", widget: "color" }
           - { label: "Accent Color", name: "accent_color", widget: "color" }
           - { label: "Text Color", name: "text_color", widget: "color" }
+          - { label: "Custom CSS Code", name: "custom_css", widget: "text", hint: "Write CSS here to override the design (e.g. body { cursor: crosshair; })" }
 
   - name: "portfolio"
     label: "My Sound Works"
