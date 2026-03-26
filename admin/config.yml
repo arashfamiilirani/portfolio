@@ -2,28 +2,24 @@ backend:
   name: github
   repo: arashfamiilirani/portfolio
   branch: main
-  # Note: If you are on Vercel, you need a proxy. 
-  # This uses a public one to get you back in.
-  base_url: https://www.arashfamiilirani.com
-  auth_endpoint: https://gatekeeper-v2.vercel.app/api/auth 
 
 media_folder: "assets/img"
 public_folder: "/assets/img"
 
 collections:
-  - name: "content"
-    label: "Website Content"
+  - name: "pages"
+    label: "Pages"
     files:
       - name: "home"
-        label: "Homepage & Bio"
+        label: "Home Page"
         file: "content/settings.json"
         fields:
           - { label: "Site Name", name: "site_name", widget: "string" }
-          - { label: "Main Heading (Huge Text)", name: "heading", widget: "string" }
-          - { label: "Bio / Intro Text", name: "bio", widget: "markdown" }
-          - label: "My Work (Videos/Audio)"
+          - { label: "Main Heading (Large)", name: "heading", widget: "string" }
+          - { label: "Bio / Description", name: "bio", widget: "markdown" }
+          - label: "Project Gallery"
             name: "projects"
             widget: "list"
             fields:
-              - { label: "Title/Caption", name: "title", widget: "string" }
-              - { label: "YouTube or SoundCloud URL", name: "url", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Link (YouTube/Vimeo/SoundCloud)", name: "url", widget: "string" }
