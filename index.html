@@ -3,113 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arash Irani | Sound Artist & Composer</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    
+    <title>Arash Irani | Sound Artist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #000000;
             --accent: #f1f704;
-            --text-main: #f5f5f7;
-            --text-dim: #86868b;
-            --panel: rgba(28, 28, 30, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        html {
-            scroll-behavior: smooth;
+            --panel: #111111;
+            --text: #ffffff;
+            --text-dim: #888888;
         }
 
         body {
             background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            -webkit-font-smoothing: antialiased;
+            min-height: 200vh; /* Adds height so you can actually scroll */
         }
 
-        /* APPLE-STYLE STICKY HEADER */
+        /* STICKY HEADER FIXED */
         header {
             position: sticky;
             top: 0;
-            z-index: 9999;
-            padding: 20px 5vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
+            padding: 20px 5%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid #222;
+            z-index: 10000;
         }
 
-        .logo h1 {
-            font-size: 1rem;
-            letter-spacing: 4px;
-            font-weight: 600;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
+        .logo h1 { font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin: 0; }
+        
         nav a {
             color: var(--text-dim);
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-left: 30px;
-            transition: 0.3s;
+            letter-spacing: 1.5px;
+            margin-left: 20px;
         }
 
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        /* BENTO GRID LAYOUT */
+        /* BENTO GRID */
         .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 24px;
-            max-width: 1250px;
-            margin: 60px auto;
-            padding: 0 40px;
+            gap: 20px;
         }
 
         .card {
             background: var(--panel);
-            backdrop-filter: blur(40px) saturate(150%);
-            -webkit-backdrop-filter: blur(40px) saturate(150%);
-            border: 1px solid var(--glass-border);
-            border-radius: 28px;
+            border: 1px solid #222;
+            border-radius: 24px;
             padding: 40px;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+            min-height: 300px;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
+        .hero { grid-column: span 8; }
+        .bio { grid-column: span 4; }
+        .wide { grid-column: span 12; }
 
-        /* PANEL SIZES (The Apple Look) */
-        .hero-card { grid-column: span 8; min-height: 450px; }
-        .bio-card { grid-column: span 4; min-height: 450px; }
-        .wide-card { grid-column: span 12; min-height: 300px; }
-
-        @media (max-width: 900px) {
-            .hero-card, .bio-card, .wide-card { grid-column: span 12; }
-        }
-
-        /* CONTENT STYLING */
         .tag {
-            background: rgba(255,255,255,0.1);
             color: var(--accent);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 20px;
-            font-family: '
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h2 { font-size: 2rem; margin: 10px 0; }
+
+        @media (max-width: 800px) {
+            .hero, .bio, .wide { grid-column: span 12; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><h1>ARASH IRANI</h1></div>
+    <nav>
+        <a href="#sound">Sound</a>
+        <a href="#photo">Photo</a>
+        <a href="#bio">Bio</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="card hero" id="sound">
+        <span class="tag">Featured Work</span>
+        <h2>Sound Design & Composition</h2>
+        <p style="color: var(--text-dim)">Atmospheric textures and high-fidelity audio engineering.</p>
+    </section>
+
+    <section class="card bio" id="bio">
+        <span class="tag">Profile</span>
+        <h3>Montreal, QC</h3>
+        <p style="color: var(--text-dim)">Professional Sound Artist based in Quebec.</p>
+    </section>
+
+    <section class="card wide" id="photo">
+        <span class="tag">Portfolio</span>
+        <h2>Photography & Projects</h2>
+    </section>
+</main>
+
+<script>
+    // Loads dashboard settings without crashing the page
+    async function loadSettings() {
+        try {
+            const res = await fetch('/content/settings.json');
+            if (res.ok) {
+                const data = await res.json();
+                if (data.accent) document.documentElement.style.setProperty('--accent', data.accent);
+                if (data.css) {
+                    const style = document.createElement('style');
+                    style.textContent = data.css;
+                    document.head.appendChild(style);
+                }
+            }
+        } catch (e) { console.error("Settings load failed"); }
+    }
+    loadSettings();
+</script>
+
+</body>
+</html>
