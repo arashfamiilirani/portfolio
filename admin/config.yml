@@ -10,9 +10,9 @@ media_folder: "assets/img"
 public_folder: "/assets/img"
 
 collections:
-  - name: "portfolio"
+  - name: "Portfolio"
     label: "My Sound Works"
-    folder: "content/portfolio"
+    folder: "content/Portfolio"
     create: true
     slug: "{{title}}"
     fields:
