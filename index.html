@@ -106,32 +106,30 @@
     </main>
 
     <script>
-        async function loadSite() {
-            try {
-                const response = await fetch('/content/settings.json');
-                const data = await response.json();
-                
-                document.getElementById('site-logo').textContent = data.site_name || "ARASH IRANI";
-                document.getElementById('main-heading').textContent = data.heading || "";
-                document.getElementById('bio-text').innerHTML = marked.parse(data.bio || "");
+        async function loadPortfolio() {
+    try {
+        const response = await fetch('/content/settings.json');
+        const data = await response.json();
+        
+        document.getElementById('site-logo').textContent = data.site_name || "ARASH IRANI";
+        document.getElementById('main-heading').textContent = data.heading || "";
+        document.getElementById('bio-text').innerHTML = marked.parse(data.bio || "");
 
-                const list = document.getElementById('project-list');
-                (data.projects || []).forEach(p => {
-                    // Check if it's a SoundCloud link to adjust height
-                    const isSoundCloud = p.url.includes('soundcloud.com');
-                    const frameStyle = isSoundCloud ? 'height:166px; aspect-ratio:auto;' : '';
-                    
-                    list.innerHTML += `
-                        <div class="work-item">
-                            <iframe src="${p.url}" style="${frameStyle}" allow="autoplay"></iframe>
-                            <p>${p.title || ''}</p>
-                        </div>`;
-                });
-            } catch (err) {
-                console.error("Content not found. Please publish from the admin page.");
-            }
-        }
-        loadSite();
+        const grid = document.getElementById('project-list');
+        (data.projects || []).forEach(p => {
+            // Soundcloud looks better at a fixed height, videos need 16/9
+            const isAudio = p.url.includes('soundcloud.com');
+            const frameStyles = isAudio ? 'height: 166px; aspect-ratio: auto;' : '';
+            
+            grid.innerHTML += `
+                <div class="work-item">
+                    <iframe src="${p.url}" style="${frameStyles}" allow="autoplay"></iframe>
+                    <div class="caption">${p.title || ''}</div>
+                </div>`;
+        });
+    } catch (e) { console.error("Could not load content."); }
+}
+loadPortfolio();
     </script>
 </body>
 </html>
