@@ -3,86 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arash Irani</title>
+    <title>Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root { --bg: #000; --text: #fff; --dim: #555; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; font-weight: 200; -webkit-font-smoothing: antialiased; }
-        
-        header { 
-            position: fixed; top: 0; width: 100%; padding: 40px; 
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; mix-blend-mode: difference;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; font-weight: 200; }
+        header { position: fixed; top: 0; width: 100%; padding: 40px; z-index: 1000; mix-blend-mode: difference; }
         .logo { font-size: 0.8rem; letter-spacing: 5px; text-transform: uppercase; font-weight: 600; }
-
         .container { max-width: 1200px; margin: 0 auto; padding: 200px 40px; }
-        .module { margin-bottom: 120px; }
-        
-        /* Editorial Typography */
-        .about_module h1 { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 200; line-height: 0.9; margin-bottom: 40px; letter-spacing: -0.04em; }
-        .about_module h2 { font-size: 1.8rem; color: #fff; margin-top: 50px; font-weight: 400; }
-        .about_module p { font-size: 1.4rem; line-height: 1.8; color: #aaa; max-width: 850px; margin-bottom: 25px; }
-        .about_module blockquote { border-left: 2px solid #333; padding: 10px 0 10px 30px; font-style: italic; font-size: 1.8rem; color: #777; margin: 40px 0; }
-        .about_module b, .about_module strong { font-weight: 600; color: #fff; }
-
-        /* Media Grids */
+        .module { margin-bottom: 150px; }
+        .about_module h1 { font-size: clamp(3rem, 8vw, 5rem); font-weight: 200; margin-bottom: 40px; }
+        .about_module p { font-size: 1.4rem; line-height: 1.8; color: #aaa; max-width: 800px; }
         .grid { display: grid; gap: 60px; }
-        .cols-1 { grid-template-columns: 1fr; }
         .cols-2 { grid-template-columns: 1fr 1fr; }
-        
-        iframe { width: 100%; aspect-ratio: 16/9; border: none; background: #080808; filter: grayscale(1); transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+        iframe { width: 100%; aspect-ratio: 16/9; border: none; filter: grayscale(1); transition: 0.5s; background: #080808; }
         iframe:hover { filter: grayscale(0); }
-        .caption { font-size: 0.65rem; letter-spacing: 4px; color: var(--dim); text-transform: uppercase; margin-top: 20px; }
-
-        .contact-box { margin-top: 100px; padding-top: 40px; border-top: 1px solid #222; }
-        .contact-box a { color: #fff; text-decoration: none; font-size: 1.1rem; margin-right: 40px; transition: 0.3s; opacity: 0.5; }
-        .contact-box a:hover { opacity: 1; }
+        .caption { font-size: 0.6rem; letter-spacing: 3px; color: var(--dim); text-transform: uppercase; margin-top: 15px; }
     </style>
 </head>
 <body>
-    <header><div class="logo" id="logo-text">ARASH IRANI</div></header>
-
+    <header><div class="logo" id="logo-text">PORTFOLIO</div></header>
     <main class="container" id="content-modules"></main>
-
     <script>
         async function init() {
-            try {
-                const res = await fetch('/content/settings.json');
-                const data = await res.json();
-                document.getElementById('logo-text').textContent = data.site_name;
-                const content = document.getElementById('content-modules');
-
-                (data.modules || []).forEach(m => {
-                    const section = document.createElement('section');
-                    section.className = `module ${m.type}`;
-                    
-                    if (m.type === 'about_module') {
-                        section.innerHTML = `<div>${marked.parse(m.body || '')}</div>`;
-                    } else if (m.type === 'video_module') {
-                        const items = (m.items || []).map(v => `
-                            <div><iframe src="${v.url}"></iframe><div class="caption">${v.caption || ''}</div></div>
-                        `).join('');
-                        section.innerHTML = `<div class="grid cols-${m.cols}">${items}</div>`;
-                    } else if (m.type === 'audio_module') {
-                        const tracks = (m.items || []).map(t => `
-                            <div style="margin-bottom:40px;">
-                                <iframe width="100%" height="166" src="${t.url}"></iframe>
-                                <div class="caption">${t.title || ''}</div>
-                            </div>
-                        `).join('');
-                        section.innerHTML = `<div>${tracks}</div>`;
-                    } else if (m.type === 'contact_module') {
-                        section.innerHTML = `
-                            <div class="contact-box">
-                                <a href="mailto:${m.email}">Email</a>
-                                <a href="${m.insta}" target="_blank">Instagram</a>
-                            </div>`;
-                    }
-                    content.appendChild(section);
-                });
-            } catch(e) { console.warn("No data found."); }
+            const res = await fetch('/content/settings.json');
+            const data = await res.json();
+            document.getElementById('logo-text').textContent = data.site_name;
+            const content = document.getElementById('content-modules');
+            (data.modules || []).forEach(m => {
+                const section = document.createElement('section');
+                section.className = `module ${m.type}`;
+                if (m.type === 'about_module') {
+                    section.innerHTML = `<div>${marked.parse(m.body || '')}</div>`;
+                } else if (m.type === 'video_module') {
+                    const items = (m.items || []).map(v => `<div><iframe src="${v.url}"></iframe><div class="caption">${v.caption || ''}</div></div>`).join('');
+                    section.innerHTML = `<div class="grid ${m.cols == '2' ? 'cols-2' : ''}">${items}</div>`;
+                } else if (m.type === 'audio_module') {
+                    const tracks = (m.items || []).map(t => `<iframe width="100%" height="166" src="${t.url}"></iframe>`).join('');
+                    section.innerHTML = `<div>${tracks}</div>`;
+                }
+                content.appendChild(section);
+            });
         }
         init();
     </script>
