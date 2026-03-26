@@ -10,56 +10,52 @@ public_folder: "/assets/img"
 
 collections:
   - name: "pages"
-    label: "Editorial Layout"
+    label: "Editorial Content"
     files:
       - name: "home"
         label: "Home Page"
         file: "content/settings.json"
         fields:
-          - { label: "Site Header Name", name: "site_name", widget: "string" }
-          - label: "Layout Modules"
+          - { label: "Site Logo Name", name: "site_name", widget: "string" }
+          - label: "Page Modules"
             name: "modules"
             widget: "list"
+            summary: '{{fields.type}}'
             types:
-              - label: "About / Text Block"
+              - label: "Text / About (Editorial)"
                 name: "about_module"
                 fields:
-                  - { label: "Heading", name: "title", widget: "string" }
-                  - { label: "Body Copy", name: "body", widget: "markdown" }
-
-              - label: "Video Gallery (Vimeo/YT)"
+                  - { label: "Headline", name: "title", widget: "string" }
+                  - label: "Body Copy"
+                    name: "body"
+                    widget: "markdown"
+                    # This enables the advanced editor tools
+                    minimal: false
+                    buttons: ["heading-one", "heading-two", "italic", "bold", "link", "quote", "bulleted-list"]
+              
+              - label: "Video Gallery"
                 name: "video_module"
                 fields:
                   - { label: "Columns", name: "cols", widget: "select", options: ["1", "2"], default: "1" }
-                  - label: "Video Items"
+                  - label: "Items"
                     name: "items"
                     widget: "list"
                     fields:
-                      - { label: "Embed URL", name: "url", widget: "string" }
+                      - { label: "Vimeo/YT Embed URL", name: "url", widget: "string" }
                       - { label: "Caption", name: "caption", widget: "string", required: false }
 
-              - label: "Music / Sound Design (SoundCloud)"
+              - label: "Audio / Sound Design"
                 name: "audio_module"
                 fields:
-                  - label: "Audio Tracks"
+                  - label: "Tracks"
                     name: "items"
                     widget: "list"
                     fields:
                       - { label: "SoundCloud/Spotify Link", name: "url", widget: "string" }
-                      - { label: "Track Title", name: "title", widget: "string" }
+                      - { label: "Title", name: "title", widget: "string" }
 
-              - label: "Photo Gallery"
-                name: "photo_module"
-                fields:
-                  - label: "Images"
-                    name: "photos"
-                    widget: "list"
-                    fields:
-                      - { label: "Upload Image", name: "image", widget: "image" }
-                      - { label: "Alt Text", name: "alt", widget: "string" }
-
-              - label: "Contact & Instagram"
+              - label: "Socials & Contact"
                 name: "contact_module"
                 fields:
-                  - { label: "Email Address", name: "email", widget: "string" }
-                  - { label: "Instagram Link", name: "insta_url", widget: "string" }
+                  - { label: "Email", name: "email", widget: "string" }
+                  - { label: "Instagram Link", name: "insta", widget: "string" }
