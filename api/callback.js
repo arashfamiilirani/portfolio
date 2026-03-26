@@ -11,17 +11,21 @@ export default async function handler(req, res) {
   });
   const data = await response.json();
 
-  // This is the part that tells the dashboard "Success!"
-  const payload = JSON.stringify({
-    token: data.access_token,
-    provider: "github"
-  });
+  // THE MAGIC FIX: Convert GitHub's 'access_token' into the 'token' Decap needs
+  const decapPayload = { token: data.access_token, provider: "github" };
 
   res.send(`
     <html><body><script>
-      (function() {
-        window.opener.postMessage('authorization:github:success:${payload}', '*');
-      })()
+    (function() {
+      function receiveMessage(e) {
+        window.opener.postMessage(
+          'authorization:github:success:${JSON.stringify(decapPayload)}',
+          e.origin
+        );
+      }
+      window.addEventListener("message", receiveMessage, false);
+      window.opener.postMessage("authorizing:github", "*");
+    })()
     </script></body></html>
   `);
 }
