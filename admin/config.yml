@@ -1,40 +1,58 @@
 backend:
   name: github
-  repo: arashfamiilirani/Portfolio
+  repo: arashfamiilirani/Portfolio # Keeping the capital P as we found earlier
   branch: main
   base_url: https://www.arashfamiilirani.com
   auth_endpoint: /api/auth
 
-# This enables "Drafts" so you can preview before publishing
 publish_mode: editorial_workflow
-
 media_folder: "assets/img"
 public_folder: "/assets/img"
 
 collections:
-  - name: "settings"
-    label: "Site Design & Settings"
-    delete: false # You don't want to delete your settings!
-    editor:
-      preview: false
-    files:
-      - name: "general"
-        label: "Appearance & Custom Code"
-        file: "content/settings.json"
-        fields:
-          - { label: "Site Title", name: "site_title", widget: "string" }
-          - { label: "Background Color", name: "bg_color", widget: "color" }
-          - { label: "Accent Color", name: "accent_color", widget: "color" }
-          - { label: "Text Color", name: "text_color", widget: "color" }
-          - { label: "Custom CSS Code", name: "custom_css", widget: "text", hint: "Write CSS here to override the design (e.g. body { cursor: crosshair; })" }
-
-  - name: "portfolio"
-    label: "My Sound Works"
-    folder: "content/portfolio"
+  # SECTION 1: SOUND DESIGN & COMPOSITION
+  - name: "audio_works"
+    label: "Audio Portfolio (Design & Music)"
+    folder: "content/audio"
     create: true
     slug: "{{title}}"
     fields:
-      - { label: "Project Title", name: "title", widget: "string" }
-      - { label: "Category", name: "category", widget: "select", options: ["Sound Design", "Composition", "Audio Engineering"] }
-      - { label: "Embed URL", name: "link", widget: "string", hint: "YouTube/SoundCloud src link" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Sound Design", "Composition", "Game Audio"] }
+      - { label: "Embed Link", name: "link", widget: "string", hint: "YouTube/SoundCloud URL" }
       - { label: "Description", name: "body", widget: "markdown" }
+
+  # SECTION 2: PHOTOGRAPHY & VISUALS
+  - name: "photography"
+    label: "Photography / Visuals"
+    folder: "content/photography"
+    create: true
+    slug: "{{title}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Featured Image", name: "image", widget: "image" }
+      - { label: "Caption", name: "body", widget: "text" }
+
+  # SECTION 3: BIO & CV
+  - name: "pages"
+    label: "Pages (Bio & CV)"
+    files:
+      - name: "about"
+        label: "Bio & CV"
+        file: "content/about.json"
+        fields:
+          - { label: "Full Name", name: "name", widget: "string" }
+          - { label: "Professional Bio", name: "bio", widget: "markdown" }
+          - { label: "Upload CV (PDF)", name: "cv_file", widget: "file" }
+          - { label: "Contact Email", name: "email", widget: "string" }
+
+  # SECTION 4: GLOBAL DESIGN
+  - name: "settings"
+    label: "Site Appearance"
+    files:
+      - name: "general"
+        label: "Branding & Colors"
+        file: "content/settings.json"
+        fields:
+          - { label: "Accent Color", name: "accent", widget: "color" }
+          - { label: "Custom CSS", name: "css", widget: "code", default_language: "css" }
