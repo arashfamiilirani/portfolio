@@ -10,20 +10,36 @@ public_folder: "/assets/img"
 
 collections:
   - name: "settings"
-    label: "Site Editor"
+    label: "Site Builder"
     files:
       - name: "general"
-        label: "Main Content"
+        label: "Design & Content"
         file: "content/settings.json"
         fields:
-          - { label: "Your Name", name: "name", widget: "string", required: false }
-          
-          # SHOW/HIDE TOGGLES
-          - { label: "Show Bio Section?", name: "show_bio", widget: "boolean", default: true }
-          - { label: "Bio Text", name: "bio", widget: "text", required: false }
-          
-          - { label: "Show Video Section?", name: "show_video", widget: "boolean", default: false }
-          - { label: "Video/Audio Embed Link", name: "video_url", widget: "string", required: false }
-          
-          - { label: "Accent Color", name: "accent", widget: "color", default: "#f1f704" }
-          - { label: "Custom CSS", name: "css", widget: "code", required: false }
+          # --- DESIGN TOOLS (REPLACES CSS BOX) ---
+          - { label: "1. Brand Name", name: "site_name", widget: "string", required: false }
+          - { label: "2. Accent Color", name: "accent", widget: "color", default: "#f1f704", required: false }
+          - { label: "3. Background Style", name: "bg_style", widget: "select", options: ["Pitch Black", "Midnight", "Studio Grey"], default: "Pitch Black", required: false }
+          - { label: "4. Glass Blur Strength", name: "blur_strength", widget: "select", options: ["None", "Light", "Heavy"], default: "Light", required: false }
+          - { label: "5. Corner Roundness", name: "roundness", widget: "select", options: ["Sharp", "Soft", "Apple Style"], default: "Apple Style", required: false }
+          - { label: "6. Show Scanlines?", name: "show_scanlines", widget: "boolean", default: false, required: false }
+
+          # --- MODULE BUILDER ---
+          - label: "7. Page Sections (Add/Move/Remove)"
+            name: "blocks"
+            widget: "list"
+            required: false
+            types:
+              - label: "Text/Bio Module"
+                name: "text_block"
+                fields:
+                  - { label: "Title", name: "title", widget: "string", required: false }
+                  - { label: "Content", name: "body", widget: "markdown", required: false }
+                  - { label: "Width", name: "width", widget: "select", options: ["Small", "Medium", "Full"], default: "Medium" }
+              
+              - label: "Video/Audio Module"
+                name: "video_block"
+                fields:
+                  - { label: "Title", name: "title", widget: "string", required: false }
+                  - { label: "Embed URL", name: "url", widget: "string", hint: "YouTube or SoundCloud Link", required: false }
+                  - { label: "Width", name: "width", widget: "select", options: ["Small", "Medium", "Full"], default: "Full" }
