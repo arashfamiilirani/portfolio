@@ -1,10 +1,7 @@
 backend:
   name: github
-  repo: arashfamiilirani/portfolio
+  repo: arashfamiilirani/portfolio # Ensure this is your exact repo name
   branch: main
-  # REMOVE your domain from here to fix the 404
-  base_url: https://gatekeeper-v2.vercel.app 
-  auth_endpoint: /api/auth
 
 media_folder: "assets/img"
 public_folder: "/assets/img"
@@ -14,15 +11,15 @@ collections:
     label: "Editorial Content"
     files:
       - name: "home"
-        label: "Homepage"
+        label: "Homepage (Yulia Mahr Style)"
         file: "content/settings.json"
         fields:
-          - { label: "Site Name", name: "site_name", widget: "string" }
-          - { label: "Main Heading", name: "heading", widget: "string" }
-          - { label: "Bio / Intro", name: "bio", widget: "markdown" }
-          - label: "Work Items"
+          - { label: "Site Header", name: "site_name", widget: "string" }
+          - { label: "Massive Heading", name: "heading", widget: "string" }
+          - { label: "Bio / Intro Text", name: "bio", widget: "markdown" }
+          - label: "Work Portfolio"
             name: "projects"
             widget: "list"
             fields:
-              - { label: "Project Title", name: "title", widget: "string" }
-              - { label: "Media URL (YouTube/SoundCloud)", name: "url", widget: "string" }
+              - { label: "Title/Caption", name: "title", widget: "string" }
+              - { label: "Media URL (YouTube/Vimeo/SoundCloud)", name: "url", widget: "string" }
