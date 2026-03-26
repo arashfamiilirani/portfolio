@@ -4,81 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <style>
-        :root { --bg: #000; --accent: #f1f704; --blur: 20px; --radius: 28px; }
-        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh; }
+        :root { --bg: #050505; --accent: #f1f704; --panel: rgba(20, 20, 22, 0.8); }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; scroll-behavior: smooth; }
         
-        /* THE SCANLINE TOOL */
-        .scanlines::before {
-            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-            z-index: 999; pointer-events: none; background-size: 100% 2px, 3px 100%;
-        }
-
-        /* STICKY HEADER */
+        /* THE STICKY HEADER */
         header { 
             position: sticky; top: 0; z-index: 1000; padding: 20px 5%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
-            border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;
         }
 
-        .container { max-width: 1200px; margin: 40px auto; padding: 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+        .container { max-width: 900px; margin: 60px auto; padding: 20px; display: flex; flex-direction: column; gap: 40px; }
         
-        /* MODULE STYLES */
-        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 30px; }
-        .Small { grid-column: span 4; }
-        .Medium { grid-column: span 8; }
-        .Full { grid-column: span 12; }
+        /* SECTION CARDS */
+        .card { 
+            background: var(--panel); border: 1px solid rgba(255,255,255,0.05); 
+            border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        h1 { font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; margin: 0; color: var(--accent); }
-        .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; opacity: 0.5; text-transform: uppercase; }
-        iframe { width: 100%; border-radius: 12px; border: none; margin-top: 15px; background: #000; }
+        h1 { font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; margin: 0; }
+        h2 { color: var(--accent); margin-top: 0; font-size: 1.5rem; letter-spacing: -0.02em; }
         
-        @media (max-width: 800px) { .card { grid-column: span 12 !important; } }
+        /* RICH TEXT EDITOR STYLES */
+        .rich-text p { line-height: 1.7; color: #aaa; }
+        .rich-text a { color: var(--accent); }
+        .rich-text strong { color: #fff; }
+        
+        nav { display: flex; gap: 20px; flex-wrap: wrap; }
+        nav a { color: #888; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; transition: 0.3s; }
+        nav a:hover { color: var(--accent); }
+        
+        iframe { width: 100%; border-radius: 12px; border: none; margin-top: 20px; background: #000; }
     </style>
 </head>
-<body id="main-body">
+<body>
 
 <header>
     <h1 id="site-name">PORTFOLIO</h1>
+    <nav id="auto-menu"></nav>
 </header>
 
-<main class="container" id="module-container"></main>
+<main class="container" id="page-content"></main>
 
 <script>
-    async function initSite() {
-        const res = await fetch('/content/settings.json');
-        const data = await res.json();
+    async function loadSite() {
+        try {
+            const res = await fetch('/content/settings.json');
+            const data = await res.json();
 
-        // 1. APPLY DESIGN TOOLS
-        const root = document.documentElement.style;
-        if(data.accent) root.setProperty('--accent', data.accent);
-        if(data.bg_style === "Midnight") root.setProperty('--bg', '#0a0a0f');
-        if(data.bg_style === "Studio Grey") root.setProperty('--bg', '#1a1a1a');
-        if(data.blur_strength === "None") root.setProperty('--blur', '0px');
-        if(data.blur_strength === "Heavy") root.setProperty('--blur', '50px');
-        if(data.roundness === "Sharp") root.setProperty('--radius', '4px');
-        if(data.roundness === "Soft") root.setProperty('--radius', '15px');
-        if(data.show_scanlines) document.getElementById('main-body').classList.add('scanlines');
+            // Set Color & Name
+            if(data.accent) document.documentElement.style.setProperty('--accent', data.accent);
+            if(data.site_name) document.getElementById('site-name').textContent = data.site_name;
 
-        if(data.site_name) document.getElementById('site-name').textContent = data.site_name;
+            const menu = document.getElementById('auto-menu');
+            const content = document.getElementById('page-content');
 
-        // 2. BUILD MODULES
-        const container = document.getElementById('module-container');
-        (data.blocks || []).forEach(block => {
-            const card = document.createElement('div');
-            card.className = `card ${block.width || 'Full'}`;
-            
-            if(block.type === "text_block") {
-                card.innerHTML = `<span class="tag">${block.title || 'Info'}</span><div style="margin-top:10px">${block.body || ''}</div>`;
-            } else if(block.type === "video_block") {
-                card.innerHTML = `<span class="tag">${block.title || 'Media'}</span><iframe src="${block.url}" height="350"></iframe>`;
-            }
-            container.appendChild(card);
-        });
+            // Build the Page and Menu Automatically
+            (data.sections || []).forEach((section, index) => {
+                const sectionId = 'section-' + index;
+
+                // 1. Add to the Sticky Menu (if it has a title)
+                if(section.title) {
+                    menu.innerHTML += `<a href="#${sectionId}">${section.title}</a>`;
+                }
+
+                // 2. Add the Content to the Page
+                let html = `<section class="card" id="${sectionId}">`;
+                if (section.title) html += `<h2>${section.title}</h2>`;
+                
+                // This 'marked.parse' makes your Rich Text editor actually work
+                if (section.body) html += `<div class="rich-text">${marked.parse(section.body)}</div>`; 
+                
+                if (section.media_link) html += `<iframe src="${section.media_link}" height="350"></iframe>`;
+                html += `</section>`;
+
+                content.innerHTML += html;
+            });
+
+        } catch(e) { console.log("Site ready to be configured via dashboard."); }
     }
-    initSite();
+    loadSite();
 </script>
+
 </body>
 </html>
