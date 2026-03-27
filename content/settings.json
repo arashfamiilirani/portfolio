@@ -2,8 +2,10 @@
   "site_name": "ARASH FAMIILIRANI",
   "home_label": "Home",
   "hero": {
-    "image": "",
-    "credit": ""
+    "image": "https://www.youtube.com/watch?v=aGUqCb4eXmM",
+    "credit": "",
+    "size": "contain",
+    "alignment": "center"
   },
   "theme": {
     "bg": "#ffffff",
@@ -18,14 +20,14 @@
     "instagram": "https://www.instagram.com/a.feefifofum/",
     "youtube": "https://www.youtube.com/channel/UC0aGTIB1KehA8IfnU2puUWQ",
     "soundcloud": "https://soundcloud.com/afamiil-irani",
-    "email": "arash.fa.ir@gmail.com"
+    "email": ""
   },
   "contact_form": {
     "endpoint": "https://formspree.io/f/xreobwzr",
-    "title": "Send a Message"
+    "title": "Contact"
   },
   "footer": {
-    "copyright": ""
+    "copyright": "https://formspree.io/f/xreobwzr"
   },
   "sections": []
 }
