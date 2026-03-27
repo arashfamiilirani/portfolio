@@ -42,7 +42,7 @@
     {
       "type": "music",
       "title": "Music",
-      "layout": "grid",
+      "layout": "list",
       "tracks": [
         {
           "url": "https://on.soundcloud.com/gy96Dq9wdsgFcUs4YQ"
