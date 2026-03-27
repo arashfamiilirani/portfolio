@@ -5,11 +5,32 @@ CMS.registerPreviewTemplate('pages', (props) => {
   const { entry } = props;
   const data = entry.toJS().data;
   const siteName = data.site_name || 'ARASH FAMIILIRANI';
+  const homeLabel = data.home_label || 'Home';
   const sections = data.sections || [];
   const social = data.social_links || {};
   const theme = data.theme || {};
+  const hero = data.hero || {};
 
-  // Build social icons HTML
+  // Convert YouTube URL helper (same as front-end)
+  function convertYouTubeUrl(url) {
+    if (!url) return url;
+    if (url.includes('/embed/') || url.includes('youtube.com/embed/')) return url;
+    if (url.includes('youtu.be/')) {
+      const id = url.split('youtu.be/')[1].split('?')[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    if (url.includes('watch?v=')) {
+      const id = url.split('v=')[1].split('&')[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    if (url.includes('/shorts/')) {
+      const id = url.split('/shorts/')[1].split('?')[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    return url;
+  }
+
+  // Social icons HTML
   const socialHtml = `
     ${social.instagram ? `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
     ${social.youtube ? `<a href="${social.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>` : ''}
@@ -18,25 +39,34 @@ CMS.registerPreviewTemplate('pages', (props) => {
     ${social.email ? `<a href="mailto:${social.email}"><i class="fas fa-envelope"></i></a>` : ''}
   `;
 
-  // Build navigation links
-  const navHtml = sections.map((section, idx) => {
-    const label = section.title || 'Untitled';
-    return `<a href="#section-${idx}">${label}</a>`;
-  }).join('');
+  // Navigation links
+  const navLinks = `
+    <a data-section="hero">${homeLabel}</a>
+    ${sections.map((section, idx) => `<a data-section="section-${idx}">${section.title || 'Untitled'}</a>`).join('')}
+  `;
 
-  // Build sections HTML
+  // Hero
+  const heroHtml = `
+    <div class="hero" id="hero-section">
+      ${hero.image ? `<img src="${hero.image}" alt="Hero">` : ''}
+      ${hero.credit ? `<div class="credit">${hero.credit}</div>` : ''}
+    </div>
+  `;
+
+  // Sections HTML
   const sectionsHtml = sections.map((section, idx) => {
     let contentHtml = '';
     if (section.type === 'bio') {
       contentHtml = marked(section.body || '');
     } else if (section.type === 'video_reel') {
       const videos = section.videos || [];
+      const layout = section.layout === 'grid' ? 'video-grid' : 'video-list';
       contentHtml = `
         <h2 class="section-title">${section.title}</h2>
-        <div class="video-grid">
+        <div class="${layout}">
           ${videos.map(v => `
             <div class="video-item">
-              <iframe src="${v.url}" frameborder="0" allowfullscreen></iframe>
+              <iframe src="${convertYouTubeUrl(v.url)}" frameborder="0" allowfullscreen></iframe>
               ${v.caption ? `<div class="caption">${v.caption}</div>` : ''}
             </div>
           `).join('')}
@@ -44,9 +74,10 @@ CMS.registerPreviewTemplate('pages', (props) => {
       `;
     } else if (section.type === 'music') {
       const tracks = section.tracks || [];
+      const layout = section.layout === 'grid' ? 'audio-grid' : 'audio-list';
       contentHtml = `
         <h2 class="section-title">${section.title}</h2>
-        <div class="audio-grid">
+        <div class="${layout}">
           ${tracks.map(t => `
             <div class="audio-item">
               <iframe src="${t.url}" frameborder="0" scrolling="no"></iframe>
@@ -57,9 +88,10 @@ CMS.registerPreviewTemplate('pages', (props) => {
       `;
     } else if (section.type === 'sound_design') {
       const tracks = section.tracks || [];
+      const layout = section.layout === 'grid' ? 'audio-grid' : 'audio-list';
       contentHtml = `
         <h2 class="section-title">${section.title}</h2>
-        <div class="audio-grid">
+        <div class="${layout}">
           ${tracks.map(t => `
             <div class="audio-item">
               <iframe src="${t.url}" frameborder="0" scrolling="no"></iframe>
@@ -74,10 +106,10 @@ CMS.registerPreviewTemplate('pages', (props) => {
         ${section.text ? marked(section.text) : '<p>Contact me via the social links above.</p>'}
       `;
     }
-    return `<section class="section ${section.type}" id="section-${idx}">${contentHtml}</section>`;
+    return `<div class="section ${section.type}" id="section-${idx}">${contentHtml}</div>`;
   }).join('');
 
-  // CSS (same as live site, with theme variables)
+  // CSS (same as front-end, with theme variables + mobile optimizations)
   const css = `
     :root {
       --bg: ${theme.bg || '#ffffff'};
@@ -94,6 +126,7 @@ CMS.registerPreviewTemplate('pages', (props) => {
       font-family: var(--body-font);
       font-weight: 300;
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
     .site-header {
       position: sticky;
@@ -128,6 +161,9 @@ CMS.registerPreviewTemplate('pages', (props) => {
       letter-spacing: 0.05em;
       color: var(--text);
       text-decoration: none;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      display: inline-block;
     }
     .nav-links a:hover { color: var(--accent); }
     .social-icons {
@@ -139,15 +175,33 @@ CMS.registerPreviewTemplate('pages', (props) => {
       font-size: 1.2rem;
       color: var(--text);
       text-decoration: none;
+      padding: 0.5rem;
     }
-    .container {
+    .main-content {
       max-width: 1000px;
       margin: 0 auto;
       padding: 2rem 2rem 6rem;
     }
+    .hero img {
+      max-width: 100%;
+      height: auto;
+    }
+    .hero .credit {
+      font-size: 0.75rem;
+      color: var(--text);
+      opacity: 0.6;
+      margin-top: 0.5rem;
+    }
     .section {
-      margin-bottom: 6rem;
-      scroll-margin-top: 100px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .section.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .bio h1 {
       font-size: var(--heading-size);
@@ -166,18 +220,30 @@ CMS.registerPreviewTemplate('pages', (props) => {
       gap: 2rem;
       margin-top: 1.5rem;
     }
-    .video_reel .video-item iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border: none;
-    }
-    .music .audio-grid, .sound_design .audio-grid {
+    .video_reel .video-list {
       display: flex;
       flex-direction: column;
       gap: 2rem;
       margin-top: 1.5rem;
     }
-    .music iframe, .sound_design iframe {
+    .video-item iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+    }
+    .music .audio-grid, .sound_design .audio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .music .audio-list, .sound_design .audio-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .audio-item iframe {
       width: 100%;
       height: 166px;
       border: none;
@@ -192,12 +258,42 @@ CMS.registerPreviewTemplate('pages', (props) => {
     }
     @media (max-width: 768px) {
       .site-header { flex-direction: column; gap: 0.5rem; text-align: center; }
-      .nav-links { justify-content: center; }
+      .nav-links { justify-content: center; gap: 1rem; }
       .social-icons { margin-left: 0; justify-content: center; }
       .bio p { max-width: 100%; }
       .bio h1 { font-size: calc(var(--heading-size) * 0.7); }
-      .video-grid { grid-template-columns: 1fr; }
+      .video-grid, .audio-grid { grid-template-columns: 1fr; }
     }
+  `;
+
+  // Preview script to handle tab switching
+  const script = `
+    <script>
+      function initPreview() {
+        const hero = document.getElementById('hero-section');
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        function showHero() {
+          if (hero) hero.style.display = 'block';
+          sections.forEach(s => s.classList.remove('active'));
+        }
+        function showSection(id) {
+          if (hero) hero.style.display = 'none';
+          sections.forEach(s => s.classList.remove('active'));
+          const target = document.getElementById(id);
+          if (target) target.classList.add('active');
+        }
+        navLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('data-section');
+            if (targetId === 'hero') showHero();
+            else showSection(targetId);
+          });
+        });
+        showHero();
+      }
+      window.addEventListener('DOMContentLoaded', initPreview);
+    <\/script>
   `;
 
   return `
@@ -205,7 +301,7 @@ CMS.registerPreviewTemplate('pages', (props) => {
     <html>
       <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <style>${css}</style>
@@ -213,12 +309,14 @@ CMS.registerPreviewTemplate('pages', (props) => {
       <body>
         <header class="site-header">
           <div class="site-title">${siteName}</div>
-          <div class="nav-links">${navHtml}</div>
+          <div class="nav-links">${navLinks}</div>
           <div class="social-icons">${socialHtml}</div>
         </header>
-        <main class="container">
+        <main class="main-content">
+          ${heroHtml}
           ${sectionsHtml}
         </main>
+        ${script}
       </body>
     </html>
   `;
