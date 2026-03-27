@@ -23,26 +23,55 @@ collections:
           - { label: "Home Button Label", name: "home_label", widget: "string", default: "Home", hint: "Text for the first tab" }
 
           # ----- HERO IMAGE -----
-          - label: "Hero Image (Homepage Background)"
+          - label: "Hero Image"
             name: "hero"
             widget: "object"
             collapsed: false
             fields:
-              - { label: "Image", name: "image", widget: "image", hint: "Upload a large landscape image" }
+              - { label: "Image", name: "image", widget: "image" }
               - { label: "Credit (optional)", name: "credit", widget: "string", required: false }
 
-          # ----- THEME SETTINGS -----
-          - label: "Theme Settings"
+          # ----- GLOBAL THEME SETTINGS -----
+          - label: "Global Theme Settings"
             name: "theme"
             widget: "object"
             collapsed: false
             fields:
               - { label: "Background Color", name: "bg", widget: "color", default: "#ffffff" }
               - { label: "Text Color", name: "text", widget: "color", default: "#111111" }
-              - { label: "Accent Color", name: "accent", widget: "color", default: "#000000" }
-              - { label: "Heading Font", name: "heading_font", widget: "select", options: ["Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif"], default: "Cormorant Garamond, serif" }
-              - { label: "Body Font", name: "body_font", widget: "select", options: ["Inter, sans-serif", "Helvetica, sans-serif", "Open Sans, sans-serif"], default: "Inter, sans-serif" }
-              - { label: "Heading Size (e.g., 4.5rem)", name: "heading_size", widget: "string", default: "4.5rem" }
+              - { label: "Accent Color (hover links)", name: "accent", widget: "color", default: "#000000" }
+              - { 
+                  label: "Global Heading Font", 
+                  name: "heading_font", 
+                  widget: "select", 
+                  options: [
+                    "Cormorant Garamond, serif",
+                    "Georgia, serif",
+                    "Playfair Display, serif",
+                    "Times New Roman, serif",
+                    "Merriweather, serif",
+                    "Montserrat, sans-serif",
+                    "Poppins, sans-serif",
+                    "Roboto, sans-serif",
+                    "Open Sans, sans-serif"
+                  ], 
+                  default: "Cormorant Garamond, serif" 
+                }
+              - { 
+                  label: "Global Body Font", 
+                  name: "body_font", 
+                  widget: "select", 
+                  options: [
+                    "Inter, sans-serif",
+                    "Helvetica, sans-serif",
+                    "Open Sans, sans-serif",
+                    "Roboto, sans-serif",
+                    "Lato, sans-serif",
+                    "Montserrat, sans-serif"
+                  ], 
+                  default: "Inter, sans-serif" 
+                }
+              - { label: "Global Heading Size (e.g., 4.5rem)", name: "heading_size", widget: "string", default: "4.5rem" }
 
           # ----- SOCIAL LINKS -----
           - label: "Social Links (header icons)"
@@ -56,7 +85,7 @@ collections:
               - { label: "Spotify URL", name: "spotify", widget: "string", required: false }
               - { label: "Email", name: "email", widget: "string", required: false }
 
-          # ----- PAGE SECTIONS (TABS) -----
+          # ----- PAGE SECTIONS (with per‑section styles) -----
           - label: "Page Sections (tabs)"
             name: "sections"
             widget: "list"
@@ -67,6 +96,15 @@ collections:
                 fields:
                   - { label: "Section Title", name: "title", widget: "string", default: "Bio / CV", required: true }
                   - { label: "Content", name: "body", widget: "markdown", default_view: "visual" }
+                  - label: "Section Style Overrides (optional)"
+                    name: "style"
+                    widget: "object"
+                    collapsed: true
+                    fields:
+                      - { label: "Heading Color", name: "heading_color", widget: "color", required: false }
+                      - { label: "Text Color", name: "text_color", widget: "color", required: false }
+                      - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
+                      - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
 
               - label: "Video Reel"
                 name: "video_reel"
@@ -79,6 +117,15 @@ collections:
                     fields:
                       - { label: "Video Embed URL", name: "url", widget: "string", hint: "Use YouTube/Vimeo embed URL" }
                       - { label: "Caption", name: "caption", widget: "string", required: false }
+                  - label: "Section Style Overrides (optional)"
+                    name: "style"
+                    widget: "object"
+                    collapsed: true
+                    fields:
+                      - { label: "Heading Color", name: "heading_color", widget: "color", required: false }
+                      - { label: "Text Color", name: "text_color", widget: "color", required: false }
+                      - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
+                      - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
 
               - label: "Music"
                 name: "music"
@@ -91,6 +138,15 @@ collections:
                     fields:
                       - { label: "Embed URL (SoundCloud/Spotify)", name: "url", widget: "string" }
                       - { label: "Details", name: "caption", widget: "string", required: false }
+                  - label: "Section Style Overrides (optional)"
+                    name: "style"
+                    widget: "object"
+                    collapsed: true
+                    fields:
+                      - { label: "Heading Color", name: "heading_color", widget: "color", required: false }
+                      - { label: "Text Color", name: "text_color", widget: "color", required: false }
+                      - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
+                      - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
 
               - label: "Sound Design"
                 name: "sound_design"
@@ -103,9 +159,27 @@ collections:
                     fields:
                       - { label: "Embed URL", name: "url", widget: "string" }
                       - { label: "Details", name: "caption", widget: "string", required: false }
+                  - label: "Section Style Overrides (optional)"
+                    name: "style"
+                    widget: "object"
+                    collapsed: true
+                    fields:
+                      - { label: "Heading Color", name: "heading_color", widget: "color", required: false }
+                      - { label: "Text Color", name: "text_color", widget: "color", required: false }
+                      - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
+                      - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
 
               - label: "Contact"
                 name: "contact"
                 fields:
                   - { label: "Section Title", name: "title", widget: "string", default: "Contact", required: true }
                   - { label: "Contact Text", name: "text", widget: "markdown", required: false }
+                  - label: "Section Style Overrides (optional)"
+                    name: "style"
+                    widget: "object"
+                    collapsed: true
+                    fields:
+                      - { label: "Heading Color", name: "heading_color", widget: "color", required: false }
+                      - { label: "Text Color", name: "text_color", widget: "color", required: false }
+                      - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
+                      - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
