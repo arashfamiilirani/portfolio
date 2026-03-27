@@ -5,53 +5,79 @@ CMS.registerPreviewTemplate('pages', (props) => {
   const { entry } = props;
   const data = entry.toJS().data;
   const siteName = data.site_name || 'ARASH FAMIILIRANI';
-  const modules = data.modules || [];
+  const sections = data.sections || [];
+  const social = data.social_links || {};
   const theme = data.theme || {};
 
-  // Build modules HTML
-  const renderModules = () => {
-    return modules.map((module, idx) => {
-      const anchorId = `module-${idx}`;
-      let content = '';
-      let navLabel = '';
-      if (module.type === 'text_block') {
-        navLabel = module.title || `Section ${idx+1}`;
-        content = marked(module.body || '');
-      } else if (module.type === 'video_block') {
-        navLabel = module.caption || `Video ${idx+1}`;
-        content = `
-          <iframe src="${module.url}" frameborder="0" allowfullscreen></iframe>
-          <div class="caption">${module.caption || ''}</div>
-        `;
-      } else if (module.type === 'audio_block') {
-        navLabel = module.caption || `Audio ${idx+1}`;
-        const tracks = (module.items || []).map(track => `
-          <div class="audio-item">
-            <iframe src="${track.url}" frameborder="0" scrolling="no"></iframe>
-            <div class="caption">${track.caption || ''}</div>
-          </div>
-        `).join('');
-        content = tracks;
-      }
-      return `
-        <section class="module ${module.type}" id="${anchorId}">
-          ${content}
-        </section>
-      `;
-    }).join('');
-  };
+  // Build social icons HTML
+  const socialHtml = `
+    ${social.instagram ? `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
+    ${social.youtube ? `<a href="${social.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>` : ''}
+    ${social.soundcloud ? `<a href="${social.soundcloud}" target="_blank"><i class="fab fa-soundcloud"></i></a>` : ''}
+    ${social.spotify ? `<a href="${social.spotify}" target="_blank"><i class="fab fa-spotify"></i></a>` : ''}
+    ${social.email ? `<a href="mailto:${social.email}"><i class="fas fa-envelope"></i></a>` : ''}
+  `;
 
-  // Navigation links HTML
-  const navLinks = modules.map((module, idx) => {
-    let label = '';
-    if (module.type === 'text_block') label = module.title;
-    else if (module.type === 'video_block') label = module.caption;
-    else if (module.type === 'audio_block') label = module.caption;
-    if (!label) label = `Section ${idx+1}`;
-    return `<a href="#module-${idx}">${label}</a>`;
+  // Build navigation links
+  const navHtml = sections.map((section, idx) => {
+    const label = section.title || 'Untitled';
+    return `<a href="#section-${idx}">${label}</a>`;
   }).join('');
 
-  // CSS that uses the theme variables
+  // Build sections HTML
+  const sectionsHtml = sections.map((section, idx) => {
+    let contentHtml = '';
+    if (section.type === 'bio') {
+      contentHtml = marked(section.body || '');
+    } else if (section.type === 'video_reel') {
+      const videos = section.videos || [];
+      contentHtml = `
+        <h2 class="section-title">${section.title}</h2>
+        <div class="video-grid">
+          ${videos.map(v => `
+            <div class="video-item">
+              <iframe src="${v.url}" frameborder="0" allowfullscreen></iframe>
+              ${v.caption ? `<div class="caption">${v.caption}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } else if (section.type === 'music') {
+      const tracks = section.tracks || [];
+      contentHtml = `
+        <h2 class="section-title">${section.title}</h2>
+        <div class="audio-grid">
+          ${tracks.map(t => `
+            <div class="audio-item">
+              <iframe src="${t.url}" frameborder="0" scrolling="no"></iframe>
+              ${t.caption ? `<div class="caption">${t.caption}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } else if (section.type === 'sound_design') {
+      const tracks = section.tracks || [];
+      contentHtml = `
+        <h2 class="section-title">${section.title}</h2>
+        <div class="audio-grid">
+          ${tracks.map(t => `
+            <div class="audio-item">
+              <iframe src="${t.url}" frameborder="0" scrolling="no"></iframe>
+              ${t.caption ? `<div class="caption">${t.caption}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } else if (section.type === 'contact') {
+      contentHtml = `
+        <h2 class="section-title">${section.title}</h2>
+        ${section.text ? marked(section.text) : '<p>Contact me via the social links above.</p>'}
+      `;
+    }
+    return `<section class="section ${section.type}" id="section-${idx}">${contentHtml}</section>`;
+  }).join('');
+
+  // CSS (same as live site, with theme variables)
   const css = `
     :root {
       --bg: ${theme.bg || '#ffffff'};
@@ -61,7 +87,7 @@ CMS.registerPreviewTemplate('pages', (props) => {
       --body-font: ${theme.body_font || 'Inter, sans-serif'};
       --heading-size: ${theme.heading_size || '4.5rem'};
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: var(--bg);
       color: var(--text);
@@ -93,6 +119,7 @@ CMS.registerPreviewTemplate('pages', (props) => {
       display: flex;
       gap: 1.5rem;
       flex-wrap: wrap;
+      align-items: center;
     }
     .nav-links a {
       font-family: var(--body-font);
@@ -103,35 +130,54 @@ CMS.registerPreviewTemplate('pages', (props) => {
       text-decoration: none;
     }
     .nav-links a:hover { color: var(--accent); }
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin-left: 1rem;
+    }
+    .social-icons a {
+      font-size: 1.2rem;
+      color: var(--text);
+      text-decoration: none;
+    }
     .container {
       max-width: 1000px;
       margin: 0 auto;
       padding: 2rem 2rem 6rem;
     }
-    .module {
+    .section {
       margin-bottom: 6rem;
       scroll-margin-top: 100px;
     }
-    .text_block h1, .text_block h2, .text_block h3 {
-      font-family: var(--heading-font);
-    }
-    .text_block h1 {
+    .bio h1 {
       font-size: var(--heading-size);
       line-height: 1.1;
       margin: 2rem 0 1rem;
     }
-    .text_block p {
+    .bio p {
       font-size: 1.2rem;
       line-height: 1.6;
       margin-bottom: 1.5rem;
       max-width: 85%;
     }
-    .video_block iframe {
+    .video_reel .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .video_reel .video-item iframe {
       width: 100%;
-      aspect-ratio: 16/9;
+      aspect-ratio: 16 / 9;
       border: none;
     }
-    .audio-item iframe {
+    .music .audio-grid, .sound_design .audio-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .music iframe, .sound_design iframe {
       width: 100%;
       height: 166px;
       border: none;
@@ -147,8 +193,10 @@ CMS.registerPreviewTemplate('pages', (props) => {
     @media (max-width: 768px) {
       .site-header { flex-direction: column; gap: 0.5rem; text-align: center; }
       .nav-links { justify-content: center; }
-      .text_block p { max-width: 100%; }
-      .text_block h1 { font-size: calc(var(--heading-size) * 0.7); }
+      .social-icons { margin-left: 0; justify-content: center; }
+      .bio p { max-width: 100%; }
+      .bio h1 { font-size: calc(var(--heading-size) * 0.7); }
+      .video-grid { grid-template-columns: 1fr; }
     }
   `;
 
@@ -159,15 +207,17 @@ CMS.registerPreviewTemplate('pages', (props) => {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <style>${css}</style>
       </head>
       <body>
         <header class="site-header">
           <div class="site-title">${siteName}</div>
-          <div class="nav-links">${navLinks}</div>
+          <div class="nav-links">${navHtml}</div>
+          <div class="social-icons">${socialHtml}</div>
         </header>
         <main class="container">
-          ${renderModules()}
+          ${sectionsHtml}
         </main>
       </body>
     </html>
