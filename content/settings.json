@@ -4,7 +4,7 @@
   "hero": {
     "image": "/assets/img/img_3547.jpeg",
     "credit": "",
-    "size": "contain",
+    "size": "full",
     "alignment": "center"
   },
   "theme": {
@@ -22,7 +22,15 @@
     "soundcloud": "https://soundcloud.com/afamiil-irani",
     "email": ""
   },
-  "sections": [],
+  "sections": [
+    {
+      "type": "contact",
+      "title": "Contact",
+      "style": {
+        "font_family": "inherit"
+      }
+    }
+  ],
   "contact_form": {
     "endpoint": "https://formspree.io/f/xreobwzr",
     "title": "contact"
