@@ -19,20 +19,21 @@ collections:
         label: "Main Page"
         file: "content/settings.json"
         fields:
-          - { label: "Site Name (Logo)", name: "site_name", widget: "string", default: "ARASH FAMIILIRANI" }
-          - { label: "Home Button Label", name: "home_label", widget: "string", default: "Home" }
+          - { label: "Site Name (Logo & Home Tab)", name: "site_name", widget: "string", default: "ARASH FAMIILIRANI" }
 
-          # Hero image/video (full screen)
-          - label: "Hero (Full Screen)"
+          # Hero Image – full customization
+          - label: "Hero Image"
             name: "hero"
             widget: "object"
             fields:
-              - { label: "Image or Video", name: "type", widget: "select", options: ["image", "video"], default: "image" }
-              - { label: "Image", name: "image", widget: "image", required: false, hint: "If type is image" }
-              - { label: "Video URL (MP4 embed)", name: "video", widget: "string", required: false, hint: "If type is video, paste direct MP4 URL" }
+              - { label: "Image", name: "image", widget: "image" }
               - { label: "Credit (optional)", name: "credit", widget: "string", required: false }
+              - { label: "Width (px or %)", name: "width", widget: "string", default: "100%", hint: "e.g., 100%, 800px" }
+              - { label: "Height (px or vh)", name: "height", widget: "string", default: "100vh", hint: "e.g., 100vh, 600px" }
+              - { label: "Object Fit", name: "fit", widget: "select", options: ["cover", "contain", "fill", "scale-down"], default: "cover" }
+              - { label: "Alignment", name: "alignment", widget: "select", options: ["center", "left", "right"], default: "center" }
 
-          # Theme
+          # Theme (simplified)
           - label: "Theme"
             name: "theme"
             widget: "object"
@@ -55,22 +56,22 @@ collections:
               - { label: "Spotify URL", name: "spotify", widget: "string", required: false }
               - { label: "Email", name: "email", widget: "string", required: false }
 
-          # Page sections (tabs)
-          - label: "Sections (tabs)"
+          # Sections – YOU create any tabs you want
+          - label: "Tabs (your custom sections)"
             name: "sections"
             widget: "list"
             summary: '{{fields.title}} ({{fields.type}})'
             types:
-              - label: "Bio / CV"
-                name: "bio"
+              - label: "Text Section"
+                name: "text"
                 fields:
-                  - { label: "Tab Title", name: "title", widget: "string", default: "Bio / CV" }
-                  - { label: "Content", name: "body", widget: "markdown", default_view: "visual" }
+                  - { label: "Tab Title", name: "title", widget: "string" }
+                  - { label: "Content (Markdown)", name: "body", widget: "markdown", default_view: "visual" }
 
-              - label: "Video Reel"
-                name: "video_reel"
+              - label: "Video Grid"
+                name: "video_grid"
                 fields:
-                  - { label: "Tab Title", name: "title", widget: "string", default: "Video Reels" }
+                  - { label: "Tab Title", name: "title", widget: "string" }
                   - label: "Videos"
                     name: "videos"
                     widget: "list"
@@ -78,10 +79,10 @@ collections:
                       - { label: "Embed URL (YouTube/Vimeo)", name: "url", widget: "string" }
                       - { label: "Caption", name: "caption", widget: "string", required: false }
 
-              - label: "Music"
-                name: "music"
+              - label: "Audio Grid"
+                name: "audio_grid"
                 fields:
-                  - { label: "Tab Title", name: "title", widget: "string", default: "Music" }
+                  - { label: "Tab Title", name: "title", widget: "string" }
                   - label: "Tracks"
                     name: "tracks"
                     widget: "list"
@@ -89,19 +90,7 @@ collections:
                       - { label: "Embed URL (SoundCloud/Spotify)", name: "url", widget: "string" }
                       - { label: "Details", name: "caption", widget: "string", required: false }
 
-              - label: "Sound Design"
-                name: "sound_design"
-                fields:
-                  - { label: "Tab Title", name: "title", widget: "string", default: "Sound Design" }
-                  - label: "Tracks"
-                    name: "tracks"
-                    widget: "list"
-                    fields:
-                      - { label: "Embed URL", name: "url", widget: "string" }
-                      - { label: "Details", name: "caption", widget: "string", required: false }
-
-              # NEW: Contact section – displays contact form (no email exposed)
-              - label: "Contact"
+              - label: "Contact Form"
                 name: "contact"
                 fields:
                   - { label: "Tab Title", name: "title", widget: "string", default: "Contact" }
