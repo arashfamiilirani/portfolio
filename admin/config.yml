@@ -22,12 +22,14 @@ collections:
           - { label: "Site Name (Logo)", name: "site_name", widget: "string", default: "ARASH FAMIILIRANI" }
           - { label: "Home Button Label", name: "home_label", widget: "string", default: "Home" }
 
-          # Hero image
-          - label: "Hero Image"
+          # Hero image/video (full screen)
+          - label: "Hero (Full Screen)"
             name: "hero"
             widget: "object"
             fields:
-              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Image or Video", name: "type", widget: "select", options: ["image", "video"], default: "image" }
+              - { label: "Image", name: "image", widget: "image", required: false, hint: "If type is image" }
+              - { label: "Video URL (MP4 embed)", name: "video", widget: "string", required: false, hint: "If type is video, paste direct MP4 URL" }
               - { label: "Credit (optional)", name: "credit", widget: "string", required: false }
 
           # Theme
@@ -42,7 +44,7 @@ collections:
               - { label: "Body Font", name: "body_font", widget: "select", options: ["Inter, sans-serif", "Helvetica, sans-serif", "Open Sans, sans-serif"], default: "Inter, sans-serif" }
               - { label: "Heading Size (e.g., 4.5rem)", name: "heading_size", widget: "string", default: "4.5rem" }
 
-          # Social links (these appear in header)
+          # Social links (header icons)
           - label: "Social Links"
             name: "social_links"
             widget: "object"
@@ -97,3 +99,10 @@ collections:
                     fields:
                       - { label: "Embed URL", name: "url", widget: "string" }
                       - { label: "Details", name: "caption", widget: "string", required: false }
+
+              # NEW: Contact section – displays contact form (no email exposed)
+              - label: "Contact"
+                name: "contact"
+                fields:
+                  - { label: "Tab Title", name: "title", widget: "string", default: "Contact" }
+                  - { label: "Intro Text (optional)", name: "text", widget: "markdown", required: false }
