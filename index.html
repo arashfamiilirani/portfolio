@@ -7,7 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Your existing CSS – keep it unchanged */
         :root {
             --bg: #ffffff;
             --text: #111111;
@@ -15,7 +14,6 @@
             --heading-font: 'Cormorant Garamond', serif;
             --body-font: 'Inter', sans-serif;
             --heading-size: 4.5rem;
-            --paragraph-size: 1.2rem;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -117,7 +115,7 @@
             margin: 2rem 0 1rem;
         }
         .bio p {
-            font-size: var(--paragraph-size);
+            font-size: 1.2rem;
             line-height: 1.6;
             margin-bottom: 1.5rem;
             max-width: 85%;
@@ -269,9 +267,9 @@
                     if (data.theme.heading_font) root.setProperty('--heading-font', data.theme.heading_font);
                     if (data.theme.body_font) root.setProperty('--body-font', data.theme.body_font);
                     if (data.theme.heading_size) root.setProperty('--heading-size', data.theme.heading_size);
-                    if (data.theme.paragraph_size) root.setProperty('--paragraph-size', data.theme.paragraph_size);
                 }
 
+                // Site name & home label
                 document.getElementById('logo-text').textContent = data.site_name || 'ARASH FAMIILIRANI';
                 const homeLabel = data.home_label || 'Home';
 
@@ -290,15 +288,11 @@
                 const currentYear = new Date().getFullYear();
                 document.getElementById('footer').innerHTML = `<p>© ${currentYear} Arash Famiilirani. All rights reserved.</p>`;
 
-                // Hero
+                // Hero image
                 const hero = data.hero || {};
-                let heroStyle = 'width: 100%; height: auto;';
-                if (hero.size === 'contain') heroStyle = 'max-width: 100%; height: auto; margin: 0 auto;';
-                else if (hero.size === 'custom' && hero.width) heroStyle = `width: ${hero.width}; height: auto; margin: 0 auto;`;
-                const heroAlign = hero.alignment || 'center';
                 const heroHtml = `
-                    <div class="hero" style="text-align: ${heroAlign};">
-                        ${hero.image ? `<img src="${hero.image}" alt="Hero" style="${heroStyle}">` : ''}
+                    <div class="hero" id="hero-section">
+                        ${hero.image ? `<img src="${hero.image}" alt="Hero">` : ''}
                         ${hero.credit ? `<div class="credit">${hero.credit}</div>` : ''}
                     </div>
                 `;
@@ -313,30 +307,15 @@
                     const sectionId = `section-${idx}`;
                     let contentHtml = '';
                     let title = section.title || 'Untitled';
-                    const style = section.style || {};
-
-                    let wrapperStyles = '';
-                    if (style.text_color) wrapperStyles += `color: ${style.text_color}; `;
-                    if (style.font_family && style.font_family !== 'inherit') wrapperStyles += `font-family: ${style.font_family}; `;
-                    if (style.text_size) wrapperStyles += `font-size: ${style.text_size}; `;
-
-                    let headingStyles = '';
-                    if (style.heading_color) headingStyles += `color: ${style.heading_color}; `;
-                    if (style.heading_size) headingStyles += `font-size: ${style.heading_size}; `;
 
                     if (section.type === 'bio') {
-                        let bodyHtml = marked.parse(section.body || '');
-                        if (headingStyles) {
-                            bodyHtml = bodyHtml.replace(/<h1([^>]*)>/, `<h1 style="${headingStyles}" $1>`);
-                            bodyHtml = bodyHtml.replace(/<h2([^>]*)>/, `<h2 style="${headingStyles}" $1>`);
-                        }
-                        contentHtml = bodyHtml;
+                        contentHtml = marked.parse(section.body || '');
                     } 
                     else if (section.type === 'video_reel') {
                         const videos = section.videos || [];
-                        const layout = section.layout === 'grid' ? 'video-grid' : 'video-list';
+                        const layout = 'video-grid'; // default to grid
                         contentHtml = `
-                            <h2 class="section-title" style="${headingStyles}">${section.title}</h2>
+                            <h2>${section.title}</h2>
                             <div class="${layout}">
                                 ${videos.map(v => `
                                     <div class="video-item">
@@ -349,9 +328,9 @@
                     }
                     else if (section.type === 'music') {
                         const tracks = section.tracks || [];
-                        const layout = section.layout === 'grid' ? 'audio-grid' : 'audio-list';
+                        const layout = 'audio-list';
                         contentHtml = `
-                            <h2 class="section-title" style="${headingStyles}">${section.title}</h2>
+                            <h2>${section.title}</h2>
                             <div class="${layout}">
                                 ${tracks.map(t => `
                                     <div class="audio-item">
@@ -364,9 +343,9 @@
                     }
                     else if (section.type === 'sound_design') {
                         const tracks = section.tracks || [];
-                        const layout = section.layout === 'grid' ? 'audio-grid' : 'audio-list';
+                        const layout = 'audio-list';
                         contentHtml = `
-                            <h2 class="section-title" style="${headingStyles}">${section.title}</h2>
+                            <h2>${section.title}</h2>
                             <div class="${layout}">
                                 ${tracks.map(t => `
                                     <div class="audio-item">
@@ -378,8 +357,6 @@
                         `;
                     }
 
-                    if (wrapperStyles) contentHtml = `<div style="${wrapperStyles}">${contentHtml}</div>`;
-
                     const sectionDiv = document.createElement('div');
                     sectionDiv.id = sectionId;
                     sectionDiv.className = `section ${section.type}`;
@@ -388,7 +365,7 @@
                     sectionsData.push({ id: sectionId, title: title });
                 });
 
-                // Hardcoded contact form (using your endpoint)
+                // Hardcoded contact form (using your Formspree endpoint)
                 const contactHtml = `
                     <div class="contact-section">
                         <h2>Contact</h2>
@@ -410,6 +387,7 @@
                 contactDiv.innerHTML = contactHtml;
                 mainContainer.appendChild(contactDiv);
 
+                // Handle form submission
                 const form = document.getElementById('contact-form');
                 const statusDiv = document.getElementById('form-status');
                 if (form) {
