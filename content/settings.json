@@ -75,6 +75,16 @@
       "type": "contact",
       "title": "Contact",
       "text": "arash.fa.ir@gmail.com"
+    },
+    {
+      "type": "video_reel",
+      "title": "Video Reels",
+      "videos": [
+        {
+          "caption": "Misophonia",
+          "url": "https://www.youtube.com/watch?v=aGUqCb4eXmM"
+        }
+      ]
     }
   ],
   "location": "Montreal",
