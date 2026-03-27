@@ -1,37 +1,26 @@
 {
+  "site_name": "ARASH FAMIILIRANI",
   "hero": {
-    "type": "video",
     "image": "",
-    "video": "https://www.youtube.com/watch?v=aGUqCb4eXmM"
+    "credit": "",
+    "width": "100%",
+    "height": "100vh",
+    "fit": "cover",
+    "alignment": "center"
   },
   "theme": {
-    "bg": "#ffefef",
-    "text": "#212121",
-    "accent": "#8a8888",
-    "heading_font": "Georgia, serif",
-    "body_font": "Helvetica, sans-serif",
-    "heading_size": "4.5"
+    "bg": "#ffffff",
+    "text": "#111111",
+    "accent": "#000000",
+    "heading_font": "Cormorant Garamond, serif",
+    "body_font": "Inter, sans-serif",
+    "heading_size": "4.5rem"
   },
   "social_links": {
     "instagram": "https://www.instagram.com/a.feefifofum/",
     "youtube": "https://www.youtube.com/channel/UC0aGTIB1KehA8IfnU2puUWQ",
-    "soundcloud": "https://soundcloud.com/afamiil-irani"
+    "soundcloud": "https://soundcloud.com/afamiil-irani",
+    "email": "arash.fa.ir@gmail.com"
   },
-  "site_name": "Arash Famiilirani",
-  "home_label": "Arash Famiilirani",
-  "sections": [
-    {
-      "type": "video_reel",
-      "title": "Video Reels",
-      "videos": [
-        {
-          "url": "https://www.youtube.com/watch?v=aGUqCb4eXmM"
-        }
-      ]
-    },
-    {
-      "type": "contact",
-      "title": "Contact"
-    }
-  ]
+  "sections": []
 }
