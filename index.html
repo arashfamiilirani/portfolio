@@ -110,7 +110,6 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Bio section */
         .bio h1 {
             font-size: var(--heading-size);
             line-height: 1.1;
@@ -122,7 +121,6 @@
             margin-bottom: 1.5rem;
             max-width: 85%;
         }
-        /* Video reel */
         .video_reel .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -141,7 +139,6 @@
             border: none;
             background: #f0f0f0;
         }
-        /* Audio sections */
         .music .audio-grid, .sound_design .audio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -167,7 +164,6 @@
             opacity: 0.7;
             margin-top: 0.5rem;
         }
-        /* Contact form */
         .contact-form {
             margin-top: 2rem;
         }
@@ -206,7 +202,6 @@
             margin-top: 1rem;
             font-size: 0.9rem;
         }
-        /* Footer */
         .site-footer {
             border-top: 1px solid rgba(0,0,0,0.1);
             padding: 2rem;
@@ -287,21 +282,21 @@
                 if (social.email) socialLinks.push(`<a href="mailto:${social.email}"><i class="fas fa-envelope"></i></a>`);
                 socialContainer.innerHTML = socialLinks.join('');
 
-                // Footer
-                if (data.footer && data.footer.copyright) {
-                    document.getElementById('footer').innerHTML = `<p>${data.footer.copyright}</p>`;
-                } else {
-                    document.getElementById('footer').innerHTML = '<p>© 2025 Arash Famiilirani. All rights reserved.</p>';
-                }
+                // Dynamic copyright year
+                const currentYear = new Date().getFullYear();
+                const copyrightText = `© ${currentYear} Arash Famiilirani. All rights reserved.`;
+                document.getElementById('footer').innerHTML = `<p>${copyrightText}</p>`;
 
-                // Hero
+                // Hero image
                 const hero = data.hero || {};
                 let heroStyle = '';
+                // Ensure image displays regardless of size settings
                 if (hero.size === 'contain') {
                     heroStyle = 'max-width: 100%; height: auto; margin: 0 auto;';
                 } else if (hero.size === 'custom' && hero.width) {
                     heroStyle = `width: ${hero.width}; height: auto; margin: 0 auto;`;
                 } else {
+                    // Default: full width
                     heroStyle = 'width: 100%; height: auto;';
                 }
                 const heroAlign = hero.alignment || 'center';
@@ -390,28 +385,28 @@
                         `;
                     }
                     else if (section.type === 'contact') {
-                        // Display the contact form (if endpoint exists)
-                        const formEndpoint = data.contact_form?.endpoint || '';
+                        // Hardcoded Formspree endpoint
+                        const formEndpoint = 'https://formspree.io/f/xreobwzr';
                         const formTitle = data.contact_form?.title || 'Send a Message';
                         let contactHtml = section.text ? marked.parse(section.text) : '';
-                        if (formEndpoint) {
-                            contactHtml += `
-                                <div class="contact-form">
-                                    <h3>${formTitle}</h3>
-                                    <form id="contact-form" action="${formEndpoint}" method="POST">
-                                        <label>Name</label>
-                                        <input type="text" name="name" required>
-                                        <label>Email</label>
-                                        <input type="email" name="_replyto" required>
-                                        <label>Message</label>
-                                        <textarea name="message" rows="5" required></textarea>
-                                        <button type="submit">Send</button>
-                                        <div class="form-status" id="form-status"></div>
-                                    </form>
-                                </div>
-                                <script>
-                                    const form = document.getElementById('contact-form');
-                                    const status = document.getElementById('form-status');
+                        contactHtml += `
+                            <div class="contact-form">
+                                <h3>${formTitle}</h3>
+                                <form id="contact-form-${idx}" action="${formEndpoint}" method="POST">
+                                    <label>Name</label>
+                                    <input type="text" name="name" required>
+                                    <label>Email</label>
+                                    <input type="email" name="_replyto" required>
+                                    <label>Message</label>
+                                    <textarea name="message" rows="5" required></textarea>
+                                    <button type="submit">Send</button>
+                                    <div class="form-status" id="form-status-${idx}"></div>
+                                </form>
+                            </div>
+                            <script>
+                                (function() {
+                                    const form = document.getElementById('contact-form-${idx}');
+                                    const status = document.getElementById('form-status-${idx}');
                                     if (form) {
                                         form.addEventListener('submit', async (e) => {
                                             e.preventDefault();
@@ -433,11 +428,9 @@
                                             }
                                         });
                                     }
-                                <\/script>
-                            `;
-                        } else {
-                            contactHtml += '<p>Contact form not configured. Please add a Formspree endpoint in the CMS.</p>';
-                        }
+                                })();
+                            <\/script>
+                        `;
                         contentHtml = contactHtml;
                     }
 
