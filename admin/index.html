@@ -2,11 +2,30 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes" />
   <title>Admin Portal</title>
+  <style>
+    /* Improve tap targets and readability on mobile */
+    @media (max-width: 768px) {
+      .decap-cms-widget-list__item,
+      .decap-cms-widget-object__field,
+      .decap-cms-widget-string input,
+      .decap-cms-widget-markdown button,
+      .decap-cms-widget-select select {
+        font-size: 16px !important; /* prevent zoom on focus */
+        padding: 12px !important;
+      }
+      .decap-cms-collection__card {
+        margin: 10px !important;
+      }
+      button, a, [role="button"] {
+        min-height: 44px !important; /* Apple's recommended touch target */
+      }
+    }
+  </style>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
-  <script type="module" src="/admin/preview.js"></script>
+  <!-- No extra config needed – Decap will load config.yml from the same folder -->
 </body>
 </html>
