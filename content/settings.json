@@ -33,8 +33,14 @@
       ]
     },
     {
+      "type": "text",
+      "title": "Bio",
+      "body": "biooooooo"
+    },
+    {
       "type": "contact",
-      "title": "Contact"
+      "title": "Contact",
+      "body": "bio"
     }
   ]
 }
