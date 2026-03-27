@@ -3,7 +3,7 @@
   "hero": {
     "image": "/assets/img/img_3547.jpeg",
     "credit": "",
-    "size": "full",
+    "size": "contain",
     "alignment": "center"
   },
   "theme": {
