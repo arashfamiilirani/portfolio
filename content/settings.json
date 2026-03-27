@@ -5,7 +5,7 @@
     "credit": "",
     "width": "75%",
     "height": "100vh",
-    "fit": "contain",
+    "fit": "cover",
     "alignment": "center"
   },
   "theme": {
