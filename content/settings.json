@@ -1,7 +1,7 @@
 {
   "site_name": "ARASH FAMIILIRANI",
   "hero": {
-    "image": "",
+    "image": "https://www.youtube.com/watch?v=aGUqCb4eXmM",
     "credit": ""
   },
   "theme": {
@@ -27,7 +27,7 @@
     {
       "type": "video_reel",
       "title": "Video Reels",
-      "layout": "grid",
+      "layout": "list",
       "videos": [
         {
           "url": "https://www.youtube.com/embed/aGUqCb4eXmM",
