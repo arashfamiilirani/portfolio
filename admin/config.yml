@@ -22,7 +22,7 @@ collections:
           - { label: "Site Name (Logo)", name: "site_name", widget: "string", hint: "Appears in header" }
           - { label: "Home Button Label", name: "home_label", widget: "string", default: "Home", hint: "Text for the first tab" }
 
-          # ----- HERO IMAGE -----
+          # ----- HERO IMAGE (with size & alignment) -----
           - label: "Hero Image"
             name: "hero"
             widget: "object"
@@ -30,6 +30,9 @@ collections:
             fields:
               - { label: "Image", name: "image", widget: "image" }
               - { label: "Credit (optional)", name: "credit", widget: "string", required: false }
+              - { label: "Image Size", name: "size", widget: "select", options: ["full", "contain", "custom"], default: "full", hint: "full = fill width, contain = fit within max width, custom = set width" }
+              - { label: "Custom Width (px or %)", name: "width", widget: "string", required: false, hint: "e.g., 800px or 80%" }
+              - { label: "Alignment", name: "alignment", widget: "select", options: ["center", "left", "right"], default: "center" }
 
           # ----- GLOBAL THEME SETTINGS -----
           - label: "Global Theme Settings"
@@ -72,6 +75,7 @@ collections:
                   default: "Inter, sans-serif" 
                 }
               - { label: "Global Heading Size (e.g., 4.5rem)", name: "heading_size", widget: "string", default: "4.5rem" }
+              - { label: "Global Paragraph Size (e.g., 1.2rem)", name: "paragraph_size", widget: "string", default: "1.2rem" }
 
           # ----- SOCIAL LINKS -----
           - label: "Social Links (header icons)"
@@ -85,7 +89,24 @@ collections:
               - { label: "Spotify URL", name: "spotify", widget: "string", required: false }
               - { label: "Email", name: "email", widget: "string", required: false }
 
-          # ----- PAGE SECTIONS (with per‑section styles) -----
+          # ----- CONTACT FORM (Formspree) -----
+          - label: "Contact Form Settings"
+            name: "contact_form"
+            widget: "object"
+            collapsed: false
+            fields:
+              - { label: "Formspree Endpoint URL", name: "endpoint", widget: "string", required: true, hint: "Get one from https://formspree.io" }
+              - { label: "Form Title (optional)", name: "title", widget: "string", default: "Send a Message" }
+
+          # ----- FOOTER -----
+          - label: "Footer"
+            name: "footer"
+            widget: "object"
+            collapsed: false
+            fields:
+              - { label: "Copyright Text", name: "copyright", widget: "string", default: "© 2025 Arash Famiilirani. All rights reserved." }
+
+          # ----- PAGE SECTIONS (with per‑section text size) -----
           - label: "Page Sections (tabs)"
             name: "sections"
             widget: "list"
@@ -105,6 +126,7 @@ collections:
                       - { label: "Text Color", name: "text_color", widget: "color", required: false }
                       - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
                       - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
+                      - { label: "Paragraph Size (e.g., 1rem)", name: "text_size", widget: "string", required: false }
 
               - label: "Video Reel"
                 name: "video_reel"
@@ -126,6 +148,7 @@ collections:
                       - { label: "Text Color", name: "text_color", widget: "color", required: false }
                       - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
                       - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
+                      - { label: "Paragraph Size (e.g., 1rem)", name: "text_size", widget: "string", required: false }
 
               - label: "Music"
                 name: "music"
@@ -147,6 +170,7 @@ collections:
                       - { label: "Text Color", name: "text_color", widget: "color", required: false }
                       - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
                       - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
+                      - { label: "Paragraph Size (e.g., 1rem)", name: "text_size", widget: "string", required: false }
 
               - label: "Sound Design"
                 name: "sound_design"
@@ -168,12 +192,13 @@ collections:
                       - { label: "Text Color", name: "text_color", widget: "color", required: false }
                       - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
                       - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
+                      - { label: "Paragraph Size (e.g., 1rem)", name: "text_size", widget: "string", required: false }
 
               - label: "Contact"
                 name: "contact"
                 fields:
                   - { label: "Section Title", name: "title", widget: "string", default: "Contact", required: true }
-                  - { label: "Contact Text", name: "text", widget: "markdown", required: false }
+                  - { label: "Contact Text (above form)", name: "text", widget: "markdown", required: false }
                   - label: "Section Style Overrides (optional)"
                     name: "style"
                     widget: "object"
@@ -183,3 +208,4 @@ collections:
                       - { label: "Text Color", name: "text_color", widget: "color", required: false }
                       - { label: "Font Family", name: "font_family", widget: "select", options: ["inherit", "Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif", "Open Sans, sans-serif", "Roboto, sans-serif"], default: "inherit" }
                       - { label: "Heading Size (e.g., 3rem)", name: "heading_size", widget: "string", required: false }
+                      - { label: "Paragraph Size (e.g., 1rem)", name: "text_size", widget: "string", required: false }
