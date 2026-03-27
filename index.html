@@ -46,6 +46,7 @@
             letter-spacing: -0.01em;
             color: var(--text);
             text-decoration: none;
+            cursor: pointer;
         }
         .nav-links {
             display: flex;
@@ -79,20 +80,21 @@
             text-decoration: none;
             padding: 0.5rem;
         }
-        /* Hero full viewport */
+        /* Hero */
         .hero {
             position: relative;
-            height: 100vh;
             width: 100%;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .hero img, .hero video {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .hero img {
+            display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: var(--hero-fit);
+            object-position: var(--hero-align);
         }
         .hero .credit {
             position: absolute;
@@ -106,12 +108,11 @@
             border-radius: 4px;
             z-index: 2;
         }
-        /* Content area that scrolls below hero */
+        /* Content area */
         .scroll-content {
             position: relative;
             background: var(--bg);
             z-index: 10;
-            margin-top: 0;
             border-top: 1px solid rgba(0,0,0,0.05);
         }
         .main-content {
@@ -130,18 +131,20 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .bio h1 {
+        /* Text section */
+        .text h1 {
             font-size: var(--heading-size);
             line-height: 1.1;
             margin: 2rem 0 1rem;
         }
-        .bio p {
+        .text p {
             font-size: 1.2rem;
             line-height: 1.6;
             margin-bottom: 1.5rem;
             max-width: 85%;
         }
-        .video_reel .video-grid {
+        /* Video grid */
+        .video_grid .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
@@ -153,9 +156,10 @@
             border: none;
             background: #f0f0f0;
         }
-        .music .audio-list, .sound_design .audio-list {
-            display: flex;
-            flex-direction: column;
+        /* Audio grid */
+        .audio_grid .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 1.5rem;
         }
@@ -223,9 +227,9 @@
             .site-header { flex-direction: column; gap: 0.5rem; text-align: center; }
             .nav-links { justify-content: center; gap: 1rem; }
             .social-icons { margin-left: 0; justify-content: center; }
-            .bio p { max-width: 100%; }
-            .bio h1 { font-size: calc(var(--heading-size) * 0.7); }
-            .video-grid { grid-template-columns: 1fr; }
+            .text p { max-width: 100%; }
+            .text h1 { font-size: calc(var(--heading-size) * 0.7); }
+            .video-grid, .audio-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -277,9 +281,10 @@
                     if (data.theme.heading_size) root.setProperty('--heading-size', data.theme.heading_size);
                 }
 
-                // Site name & home label
-                document.getElementById('logo-text').textContent = data.site_name || 'ARASH FAMIILIRANI';
-                const homeLabel = data.home_label || 'Home';
+                // Site name (used for both logo and home tab)
+                const siteName = data.site_name || 'ARASH FAMIILIRANI';
+                document.getElementById('logo-text').textContent = siteName;
+                const homeLabel = siteName; // Home tab uses site name
 
                 // Social icons
                 const social = data.social_links || {};
@@ -296,26 +301,28 @@
                 const currentYear = new Date().getFullYear();
                 document.getElementById('footer').innerHTML = `<p>© ${currentYear} Arash Famiilirani. All rights reserved.</p>`;
 
-                // Hero (full screen)
+                // Hero with custom size and fit
                 const hero = data.hero || {};
                 const heroContainer = document.getElementById('hero-section');
-                if (hero.type === 'video' && hero.video) {
-                    heroContainer.innerHTML = `
-                        <video autoplay loop muted playsinline>
-                            <source src="${hero.video}" type="video/mp4">
-                        </video>
-                        ${hero.credit ? `<div class="credit">${hero.credit}</div>` : ''}
+                if (hero.image) {
+                    const heroStyle = `
+                        width: ${hero.width || '100%'};
+                        height: ${hero.height || '100vh'};
                     `;
-                } else if (hero.image) {
+                    const heroFit = hero.fit || 'cover';
+                    const heroAlign = hero.alignment || 'center';
+                    heroContainer.style.cssText = heroStyle;
+                    heroContainer.style.setProperty('--hero-fit', heroFit);
+                    heroContainer.style.setProperty('--hero-align', heroAlign);
                     heroContainer.innerHTML = `
                         <img src="${hero.image}" alt="Hero">
                         ${hero.credit ? `<div class="credit">${hero.credit}</div>` : ''}
                     `;
                 } else {
-                    heroContainer.innerHTML = ''; // no hero
+                    heroContainer.innerHTML = '';
                 }
 
-                // Sections
+                // Sections – custom tabs
                 const sections = data.sections || [];
                 const mainContainer = document.getElementById('main-content');
                 mainContainer.innerHTML = '';
@@ -327,10 +334,10 @@
                     let contentHtml = '';
                     let title = section.title || 'Untitled';
 
-                    if (section.type === 'bio') {
+                    if (section.type === 'text') {
                         contentHtml = marked.parse(section.body || '');
                     } 
-                    else if (section.type === 'video_reel') {
+                    else if (section.type === 'video_grid') {
                         const videos = section.videos || [];
                         contentHtml = `
                             <h2>${section.title}</h2>
@@ -344,25 +351,11 @@
                             </div>
                         `;
                     }
-                    else if (section.type === 'music') {
+                    else if (section.type === 'audio_grid') {
                         const tracks = section.tracks || [];
                         contentHtml = `
                             <h2>${section.title}</h2>
-                            <div class="audio-list">
-                                ${tracks.map(t => `
-                                    <div class="audio-item">
-                                        <iframe src="${t.url}" frameborder="0" scrolling="no"></iframe>
-                                        ${t.caption ? `<div class="caption">${t.caption}</div>` : ''}
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `;
-                    }
-                    else if (section.type === 'sound_design') {
-                        const tracks = section.tracks || [];
-                        contentHtml = `
-                            <h2>${section.title}</h2>
-                            <div class="audio-list">
+                            <div class="audio-grid">
                                 ${tracks.map(t => `
                                     <div class="audio-item">
                                         <iframe src="${t.url}" frameborder="0" scrolling="no"></iframe>
@@ -373,7 +366,7 @@
                         `;
                     }
                     else if (section.type === 'contact') {
-                        // Contact form (hardcoded endpoint)
+                        // Contact form – hardcoded endpoint
                         contentHtml = `
                             <h2>${section.title}</h2>
                             ${section.text ? marked.parse(section.text) : ''}
@@ -426,7 +419,7 @@
                     sectionsData.push({ id: sectionId, title: title });
                 });
 
-                // Navigation (Home + section tabs)
+                // Navigation (Home + custom tabs)
                 const navContainer = document.getElementById('nav-links');
                 navContainer.innerHTML = `<a data-section="hero">${homeLabel}</a>` + 
                     sectionsData.map(item => `<a data-section="${item.id}">${item.title}</a>`).join('');
@@ -439,18 +432,14 @@
                         const targetId = link.getAttribute('data-section');
                         const sections = document.querySelectorAll('.section');
                         if (targetId === 'hero') {
-                            // Show hero, hide all sections
                             heroElem.style.display = 'block';
                             sections.forEach(s => s.classList.remove('active'));
-                            // Scroll to top (hero)
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                         } else {
-                            // Hide hero, show target section
                             heroElem.style.display = 'none';
                             sections.forEach(s => s.classList.remove('active'));
                             const activeSection = document.getElementById(targetId);
                             if (activeSection) activeSection.classList.add('active');
-                            // Scroll to top of content area
                             scrollContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
                     });
