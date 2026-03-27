@@ -11,7 +11,6 @@ CMS.registerPreviewTemplate('pages', (props) => {
   const theme = data.theme || {};
   const hero = data.hero || {};
 
-  // Convert YouTube URL helper (same as front-end)
   function convertYouTubeUrl(url) {
     if (!url) return url;
     if (url.includes('/embed/') || url.includes('youtube.com/embed/')) return url;
@@ -30,7 +29,6 @@ CMS.registerPreviewTemplate('pages', (props) => {
     return url;
   }
 
-  // Social icons HTML
   const socialHtml = `
     ${social.instagram ? `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>` : ''}
     ${social.youtube ? `<a href="${social.youtube}" target="_blank"><i class="fab fa-youtube"></i></a>` : ''}
@@ -39,13 +37,11 @@ CMS.registerPreviewTemplate('pages', (props) => {
     ${social.email ? `<a href="mailto:${social.email}"><i class="fas fa-envelope"></i></a>` : ''}
   `;
 
-  // Navigation links
   const navLinks = `
     <a data-section="hero">${homeLabel}</a>
     ${sections.map((section, idx) => `<a data-section="section-${idx}">${section.title || 'Untitled'}</a>`).join('')}
   `;
 
-  // Hero
   const heroHtml = `
     <div class="hero" id="hero-section">
       ${hero.image ? `<img src="${hero.image}" alt="Hero">` : ''}
@@ -53,16 +49,25 @@ CMS.registerPreviewTemplate('pages', (props) => {
     </div>
   `;
 
-  // Sections HTML
   const sectionsHtml = sections.map((section, idx) => {
     let contentHtml = '';
+    const style = section.style || {};
+    let headingStyles = '';
+    if (style.heading_color) headingStyles += `color: ${style.heading_color}; `;
+    if (style.heading_size) headingStyles += `font-size: ${style.heading_size}; `;
+
     if (section.type === 'bio') {
-      contentHtml = marked(section.body || '');
+      let bodyHtml = marked(section.body || '');
+      if (headingStyles) {
+        bodyHtml = bodyHtml.replace(/<h1([^>]*)>/, `<h1 style="${headingStyles}" $1>`);
+        bodyHtml = bodyHtml.replace(/<h2([^>]*)>/, `<h2 style="${headingStyles}" $1>`);
+      }
+      contentHtml = bodyHtml;
     } else if (section.type === 'video_reel') {
       const videos = section.videos || [];
       const layout = section.layout === 'grid' ? 'video-grid' : 'video-list';
       contentHtml = `
-        <h2 class="section-title">${section.title}</h2>
+        <h2 class="section-title" style="${headingStyles}">${section.title}</h2>
         <div class="${layout}">
           ${videos.map(v => `
             <div class="video-item">
@@ -76,7 +81,7 @@ CMS.registerPreviewTemplate('pages', (props) => {
       const tracks = section.tracks || [];
       const layout = section.layout === 'grid' ? 'audio-grid' : 'audio-list';
       contentHtml = `
-        <h2 class="section-title">${section.title}</h2>
+        <h2 class="section-title" style="${headingStyles}">${section.title}</h2>
         <div class="${layout}">
           ${tracks.map(t => `
             <div class="audio-item">
@@ -90,7 +95,7 @@ CMS.registerPreviewTemplate('pages', (props) => {
       const tracks = section.tracks || [];
       const layout = section.layout === 'grid' ? 'audio-grid' : 'audio-list';
       contentHtml = `
-        <h2 class="section-title">${section.title}</h2>
+        <h2 class="section-title" style="${headingStyles}">${section.title}</h2>
         <div class="${layout}">
           ${tracks.map(t => `
             <div class="audio-item">
@@ -101,15 +106,23 @@ CMS.registerPreviewTemplate('pages', (props) => {
         </div>
       `;
     } else if (section.type === 'contact') {
-      contentHtml = `
-        <h2 class="section-title">${section.title}</h2>
-        ${section.text ? marked(section.text) : '<p>Contact me via the social links above.</p>'}
-      `;
+      let contactHtml = marked(section.text || '<p>Contact me via the social links above.</p>');
+      if (headingStyles) {
+        contactHtml = contactHtml.replace(/<h2([^>]*)>/, `<h2 style="${headingStyles}" $1>`);
+      }
+      contentHtml = contactHtml;
     }
+
+    // Wrap with text color/font overrides
+    let wrapperStyles = '';
+    if (style.text_color) wrapperStyles += `color: ${style.text_color}; `;
+    if (style.font_family && style.font_family !== 'inherit') wrapperStyles += `font-family: ${style.font_family}; `;
+    if (wrapperStyles) contentHtml = `<div style="${wrapperStyles}">${contentHtml}</div>`;
+
     return `<div class="section ${section.type}" id="section-${idx}">${contentHtml}</div>`;
   }).join('');
 
-  // CSS (same as front-end, with theme variables + mobile optimizations)
+  // CSS (same as front-end with expanded fonts)
   const css = `
     :root {
       --bg: ${theme.bg || '#ffffff'};
@@ -266,7 +279,6 @@ CMS.registerPreviewTemplate('pages', (props) => {
     }
   `;
 
-  // Preview script to handle tab switching
   const script = `
     <script>
       function initPreview() {
@@ -302,7 +314,7 @@ CMS.registerPreviewTemplate('pages', (props) => {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&family=Playfair+Display:wght@400;500&family=Open+Sans:wght@300;400&family=Roboto:wght@300;400&family=Montserrat:wght@300;400&family=Lato:wght@300;400&family=Poppins:wght@300;400&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <style>${css}</style>
       </head>
