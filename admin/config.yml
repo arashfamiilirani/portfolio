@@ -8,9 +8,8 @@ backend:
 media_folder: "assets/img"
 public_folder: "/assets/img"
 
-# THIS turns off the split-screen, giving you a full-width "Blogger/Google Docs" canvas
 editor:
-  preview: false
+  preview: false  # We're using our custom preview above, so we turn off the built-in split view
 
 collections:
   - name: "pages"
@@ -20,16 +19,16 @@ collections:
         label: "Main Page"
         file: "content/settings.json"
         fields:
-          - { label: "Brand / Logo Name", name: "site_name", widget: "string" }
+          - { label: "Site Name (Logo)", name: "site_name", widget: "string", hint: "This appears at the top of your site" }
           - label: "Page Sections"
             name: "modules"
             widget: "list"
             summary: '{{fields.type}}'
             types:
-              - label: "Rich Text (Google Docs Style)"
+              - label: "Rich Text Block (like Google Docs)"
                 name: "text_block"
                 fields:
-                  - { label: "Section Label (For your eyes only)", name: "title", widget: "string" }
+                  - { label: "Section Title (admin only)", name: "title", widget: "string", required: false, hint: "For your reference only" }
                   - label: "Content"
                     name: "body"
                     widget: "markdown"
@@ -37,18 +36,18 @@ collections:
                     minimal: false
                     buttons: ["heading-one", "heading-two", "bold", "italic", "quote", "link", "bulleted-list"]
               
-              - label: "Cinematic Video"
+              - label: "Video (YouTube / Vimeo)"
                 name: "video_block"
                 fields:
-                  - { label: "Video URL (Vimeo/YouTube)", name: "url", widget: "string" }
-                  - { label: "Caption", name: "caption", widget: "string", required: false }
+                  - { label: "Video URL", name: "url", widget: "string", hint: "Paste the full embed URL or share link" }
+                  - { label: "Caption (optional)", name: "caption", widget: "string", required: false }
 
-              - label: "Audio / Soundscape Grid"
+              - label: "Audio / SoundCloud Grid"
                 name: "audio_block"
                 fields:
-                  - label: "Audio Tracks"
+                  - label: "Tracks"
                     name: "items"
                     widget: "list"
                     fields:
-                      - { label: "SoundCloud Embed URL", name: "url", widget: "string" }
+                      - { label: "SoundCloud Embed URL", name: "url", widget: "string", hint: "Example: https://w.soundcloud.com/player/?url=..." }
                       - { label: "Track Details (e.g., 96kHz 24-bit WAV)", name: "caption", widget: "string", required: false }
