@@ -21,12 +21,14 @@ collections:
         fields:
           - { label: "Site Name (Logo & Home Tab)", name: "site_name", widget: "string", default: "ARASH FAMIILIRANI" }
 
-          # Hero Image (supports GIF)
-          - label: "Hero Image (GIF or image)"
+          # Hero (supports image/GIF or video)
+          - label: "Hero Background"
             name: "hero"
             widget: "object"
             fields:
-              - { label: "Image or GIF", name: "image", widget: "image", hint: "Upload an image or animated GIF" }
+              - { label: "Type", name: "type", widget: "select", options: ["image", "video"], default: "image" }
+              - { label: "Image or GIF", name: "image", widget: "image", required: false, hint: "If type is image" }
+              - { label: "Video URL (MP4/WebM)", name: "video", widget: "string", required: false, hint: "If type is video, paste direct URL (e.g., /assets/video/loop.mp4)" }
               - { label: "Credit (optional)", name: "credit", widget: "string", required: false }
               - { label: "Width (px or %)", name: "width", widget: "string", default: "100%", hint: "e.g., 100%, 800px" }
               - { label: "Height (px or vh)", name: "height", widget: "string", default: "100vh", hint: "e.g., 100vh, 600px" }
