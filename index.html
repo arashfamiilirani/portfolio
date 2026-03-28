@@ -108,13 +108,15 @@
             border-radius: 4px;
             z-index: 2;
         }
-        .main-container {
-            scroll-padding-top: calc(var(--header-height) + 20px);
-        }
         .scroll-content {
             position: relative;
             background: var(--bg);
             z-index: 10;
+            transition: margin-top 0.2s ease;
+        }
+        /* This class is added when hero is hidden */
+        .scroll-content.with-margin {
+            margin-top: calc(var(--header-height));
         }
         .main-content {
             max-width: 1000px;
@@ -250,11 +252,9 @@
         <div class="social-icons" id="social-icons"></div>
     </header>
     <div class="hero" id="hero-section"></div>
-    <div class="main-container">
-        <div class="scroll-content">
-            <main class="main-content" id="main-content"></main>
-            <footer class="site-footer" id="footer"></footer>
-        </div>
+    <div class="scroll-content" id="scroll-content">
+        <main class="main-content" id="main-content"></main>
+        <footer class="site-footer" id="footer"></footer>
     </div>
 
     <script>
@@ -455,8 +455,9 @@
                 const logo = document.querySelector('.site-title');
                 const heroElem = document.getElementById('hero-section');
                 const sectionsElements = document.querySelectorAll('.section');
+                const scrollContent = document.getElementById('scroll-content');
 
-                // Set header height for scroll-margin-top and scroll-padding-top
+                // Set header height for CSS variables and dynamic margin
                 function setHeaderHeight() {
                     const header = document.querySelector('.site-header');
                     const height = header.offsetHeight;
@@ -469,6 +470,8 @@
                     heroElem.style.display = 'block';
                     sectionsElements.forEach(s => s.classList.remove('active'));
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                    // Remove top margin when hero is shown
+                    scrollContent.classList.remove('with-margin');
                 });
 
                 // Click handlers for section tabs
@@ -480,14 +483,17 @@
                         const activeSection = document.getElementById(targetId);
                         if (activeSection) {
                             activeSection.classList.add('active');
+                            // Add top margin to push content below header
+                            scrollContent.classList.add('with-margin');
                             activeSection.scrollIntoView({ behavior: 'smooth' });
                         }
                     });
                 });
 
-                // Initial state: show hero, hide all sections
+                // Initial state: show hero, hide all sections, no margin
                 heroElem.style.display = 'block';
                 sectionsElements.forEach(s => s.classList.remove('active'));
+                scrollContent.classList.remove('with-margin');
 
             } catch (err) {
                 console.warn('Awaiting CMS publish…', err);
