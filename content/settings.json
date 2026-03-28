@@ -38,7 +38,7 @@
     },
     {
       "type": "video_grid",
-      "layout": "grid",
+      "layout": "list",
       "width": "100%",
       "videos": [
         {
