@@ -16,7 +16,8 @@
     "heading_font": "Cormorant Garamond, serif",
     "body_font": "Inter, sans-serif",
     "heading_size": "3.5rem",
-    "body_font_size": "1rem"
+    "body_font_size": "1rem",
+    "header_opacity": 1
   },
   "social_links": {
     "instagram": "https://www.instagram.com/a.feefifofum/",
@@ -59,5 +60,9 @@
       "title": "Contact",
       "text": ""
     }
-  ]
+  ],
+  "page_overlay": {
+    "color": "#edf4f4",
+    "opacity": 1
+  }
 }
