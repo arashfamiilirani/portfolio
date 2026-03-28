@@ -114,10 +114,11 @@
             background: var(--bg);
             z-index: 10;
             border-top: 1px solid rgba(0,0,0,0.05);
-            transition: padding-top 0.2s;
+            transition: margin-top 0.2s;
         }
-        .scroll-content.with-padding {
-            padding-top: 60px;
+        /* When hero is hidden, add margin-top equal to header height */
+        .scroll-content.with-margin {
+            margin-top: 60px; /* will be dynamically set by JS */
         }
         .main-content {
             max-width: 1000px;
@@ -297,7 +298,6 @@
                 // Site name
                 const siteName = data.site_name || 'ARASH FAMIILIRANI';
                 document.getElementById('logo-text').textContent = siteName;
-                const homeLabel = siteName;
 
                 // Social icons
                 const social = data.social_links || {};
@@ -360,6 +360,7 @@
                     let title = section.title || 'Untitled';
 
                     if (section.type === 'text') {
+                        // Ensure markdown is parsed correctly
                         contentHtml = marked.parse(section.body || '');
                     } 
                     else if (section.type === 'video_grid') {
@@ -448,43 +449,60 @@
                     sectionsData.push({ id: sectionId, title: title });
                 });
 
-                // Navigation
+                // Navigation – only the custom sections (no Home tab)
                 const navContainer = document.getElementById('nav-links');
-                navContainer.innerHTML = `<a data-section="hero">${homeLabel}</a>` + 
-                    sectionsData.map(item => `<a data-section="${item.id}">${item.title}</a>`).join('');
+                navContainer.innerHTML = sectionsData.map(item => `<a data-section="${item.id}">${item.title}</a>`).join('');
 
-                const header = document.querySelector('.site-header');
-                const headerHeight = header.offsetHeight;
+                // Click handler for logo (acts as Home)
+                const logo = document.querySelector('.site-title');
                 const heroElem = document.getElementById('hero-section');
                 const scrollContent = document.getElementById('scroll-content');
+                const header = document.querySelector('.site-header');
+                let headerHeight = header.offsetHeight;
 
+                // Update header height on resize
+                window.addEventListener('resize', () => {
+                    headerHeight = header.offsetHeight;
+                    if (!heroElem.style.display || heroElem.style.display === 'block') {
+                        scrollContent.classList.remove('with-margin');
+                    } else {
+                        scrollContent.style.marginTop = `${headerHeight}px`;
+                        scrollContent.classList.add('with-margin');
+                    }
+                });
+
+                logo.addEventListener('click', () => {
+                    heroElem.style.display = 'block';
+                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    scrollContent.classList.remove('with-margin');
+                });
+
+                // Click handlers for section tabs
                 document.querySelectorAll('.nav-links a').forEach(link => {
                     link.addEventListener('click', (e) => {
                         const targetId = link.getAttribute('data-section');
                         const sections = document.querySelectorAll('.section');
-                        if (targetId === 'hero') {
-                            heroElem.style.display = 'block';
-                            sections.forEach(s => s.classList.remove('active'));
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                            scrollContent.classList.remove('with-padding');
-                        } else {
-                            heroElem.style.display = 'none';
-                            sections.forEach(s => s.classList.remove('active'));
-                            const activeSection = document.getElementById(targetId);
-                            if (activeSection) {
-                                activeSection.classList.add('active');
-                                const elementPosition = activeSection.getBoundingClientRect().top + window.pageYOffset;
-                                const offsetPosition = elementPosition - headerHeight;
-                                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-                            }
-                            scrollContent.classList.add('with-padding');
+                        heroElem.style.display = 'none';
+                        sections.forEach(s => s.classList.remove('active'));
+                        const activeSection = document.getElementById(targetId);
+                        if (activeSection) {
+                            activeSection.classList.add('active');
+                            // Calculate scroll position with header offset
+                            const elementPosition = activeSection.getBoundingClientRect().top + window.pageYOffset;
+                            const offsetPosition = elementPosition - headerHeight;
+                            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                         }
+                        // Add margin to scroll-content to prevent header overlap when scrolling up
+                        scrollContent.style.marginTop = `${headerHeight}px`;
+                        scrollContent.classList.add('with-margin');
                     });
                 });
 
+                // Initial state: show hero, hide all sections
                 heroElem.style.display = 'block';
                 document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                scrollContent.classList.remove('with-padding');
+                scrollContent.classList.remove('with-margin');
 
             } catch (err) {
                 console.warn('Awaiting CMS publish…', err);
