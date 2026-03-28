@@ -27,18 +27,6 @@
   "sections": [
     {
       "type": "video_grid",
-      "title": "Multi Media",
-      "layout": "list",
-      "width": "100%",
-      "videos": [
-        {
-          "url": "https://www.youtube.com/embed/aGUqCb4eXmM",
-          "caption": "Misophonia"
-        }
-      ]
-    },
-    {
-      "type": "video_grid",
       "title": "Sound Design Reels",
       "layout": "list",
       "width": "100%",
@@ -46,6 +34,18 @@
         {
           "url": "https://www.youtube.com/embed/zOXvSNcMYCc",
           "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "video_grid",
+      "title": "Multi Media",
+      "layout": "list",
+      "width": "100%",
+      "videos": [
+        {
+          "url": "https://www.youtube.com/embed/aGUqCb4eXmM",
+          "caption": "Misophonia"
         }
       ]
     },
