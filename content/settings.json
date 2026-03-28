@@ -27,7 +27,7 @@
   "sections": [
     {
       "type": "video_grid",
-      "title": "Reels",
+      "title": "Multi Media",
       "videos": [
         {
           "url": "https://www.youtube.com/watch?v=aGUqCb4eXmM"
@@ -35,16 +35,6 @@
       ],
       "width": "100%",
       "layout": "list"
-    },
-    {
-      "type": "text",
-      "title": "Bio",
-      "body": "biooooooo"
-    },
-    {
-      "type": "contact",
-      "title": "Contact",
-      "body": "bio"
     },
     {
       "type": "video_grid",
@@ -56,6 +46,16 @@
         }
       ],
       "title": "Sound Design Reels"
+    },
+    {
+      "type": "text",
+      "title": "Bio",
+      "body": "biooooooo"
+    },
+    {
+      "type": "contact",
+      "title": "Contact",
+      "body": "bio"
     }
   ]
 }
