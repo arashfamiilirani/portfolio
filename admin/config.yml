@@ -28,10 +28,10 @@ collections:
             fields:
               - { label: "Type", name: "type", widget: "select", options: ["image", "video"], default: "image" }
               - { label: "Image or GIF", name: "image", widget: "image", required: false, hint: "If type is image" }
-              - { label: "Video URL (MP4/WebM)", name: "video", widget: "string", required: false, hint: "If type is video, paste direct URL" }
+              - { label: "Video URL (MP4/WebM)", name: "video", widget: "string", required: false, hint: "If type is video" }
               - { label: "Credit (optional)", name: "credit", widget: "string", required: false }
-              - { label: "Width (px or %)", name: "width", widget: "string", default: "100%", hint: "e.g., 100%, 800px" }
-              - { label: "Height (px or vh)", name: "height", widget: "string", default: "100vh", hint: "e.g., 100vh, 600px" }
+              - { label: "Width (px or %)", name: "width", widget: "string", default: "100%" }
+              - { label: "Height (px or vh)", name: "height", widget: "string", default: "100vh" }
               - { label: "Object Fit", name: "fit", widget: "select", options: ["cover", "contain", "fill", "scale-down"], default: "cover" }
               - { label: "Alignment", name: "alignment", widget: "select", options: ["center", "left", "right"], default: "center" }
 
@@ -59,7 +59,7 @@ collections:
               - { label: "Spotify URL", name: "spotify", widget: "string", required: false }
               - { label: "Email", name: "email", widget: "string", required: false }
 
-          # Sections
+          # Sections (tabs)
           - label: "Tabs (your custom sections)"
             name: "sections"
             widget: "list"
@@ -76,7 +76,7 @@ collections:
                 fields:
                   - { label: "Tab Title", name: "title", widget: "string" }
                   - { label: "Layout", name: "layout", widget: "select", options: ["grid", "list"], default: "grid" }
-                  - { label: "Video Width (e.g., 100%, 800px)", name: "width", widget: "string", default: "100%", hint: "Only applies to Grid layout" }
+                  - { label: "Video Width (e.g., 100%, 800px)", name: "width", widget: "string", default: "100%" }
                   - label: "Videos"
                     name: "videos"
                     widget: "list"
@@ -89,7 +89,7 @@ collections:
                 fields:
                   - { label: "Tab Title", name: "title", widget: "string" }
                   - { label: "Layout", name: "layout", widget: "select", options: ["grid", "list"], default: "grid" }
-                  - { label: "Audio Width (e.g., 100%, 600px)", name: "width", widget: "string", default: "100%", hint: "Only applies to Grid layout" }
+                  - { label: "Audio Width (e.g., 100%, 600px)", name: "width", widget: "string", default: "100%" }
                   - label: "Tracks"
                     name: "tracks"
                     widget: "list"
