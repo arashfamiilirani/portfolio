@@ -14,7 +14,7 @@
             --heading-font: 'Cormorant Garamond', serif;
             --body-font: 'Inter', sans-serif;
             --heading-size: 4.5rem;
-            --header-height: 60px; /* will be set dynamically if needed */
+            --body-font-size: 1.2rem;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -24,6 +24,7 @@
             font-weight: 300;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            font-size: var(--body-font-size);
         }
         /* Header – narrower */
         .site-header {
@@ -40,7 +41,6 @@
             align-items: center;
             flex-wrap: wrap;
             z-index: 100;
-            font-size: 0.9rem;
         }
         .site-title {
             font-family: var(--heading-font);
@@ -91,7 +91,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* default height, will be overridden by inline style */
         }
         .hero img {
             display: block;
@@ -112,7 +111,7 @@
             border-radius: 4px;
             z-index: 2;
         }
-        /* Content area – will have padding-top when hero is hidden */
+        /* Content area */
         .scroll-content {
             position: relative;
             background: var(--bg);
@@ -121,7 +120,7 @@
             transition: padding-top 0.2s;
         }
         .scroll-content.with-padding {
-            padding-top: 60px; /* match header height */
+            padding-top: 60px;
         }
         .main-content {
             max-width: 1000px;
@@ -146,7 +145,7 @@
             margin: 2rem 0 1rem;
         }
         .text p {
-            font-size: 1.2rem;
+            font-size: var(--body-font-size);
             line-height: 1.6;
             margin-bottom: 1.5rem;
             max-width: 85%;
@@ -287,6 +286,7 @@
                     if (data.theme.heading_font) root.setProperty('--heading-font', data.theme.heading_font);
                     if (data.theme.body_font) root.setProperty('--body-font', data.theme.body_font);
                     if (data.theme.heading_size) root.setProperty('--heading-size', data.theme.heading_size);
+                    if (data.theme.body_font_size) root.setProperty('--body-font-size', data.theme.body_font_size);
                 }
 
                 // Site name (used for both logo and home tab)
@@ -347,9 +347,10 @@
                     } 
                     else if (section.type === 'video_grid') {
                         const videos = section.videos || [];
+                        const videoWidth = section.width || '100%';
                         contentHtml = `
                             <h2>${section.title}</h2>
-                            <div class="video-grid">
+                            <div class="video-grid" style="grid-template-columns: repeat(auto-fill, minmax(${videoWidth === '100%' ? '300px' : videoWidth}, 1fr));">
                                 ${videos.map(v => `
                                     <div class="video-item">
                                         <iframe src="${convertYouTubeUrl(v.url)}" frameborder="0" allowfullscreen></iframe>
@@ -361,9 +362,10 @@
                     }
                     else if (section.type === 'audio_grid') {
                         const tracks = section.tracks || [];
+                        const audioWidth = section.width || '100%';
                         contentHtml = `
                             <h2>${section.title}</h2>
-                            <div class="audio-grid">
+                            <div class="audio-grid" style="grid-template-columns: repeat(auto-fill, minmax(${audioWidth === '100%' ? '300px' : audioWidth}, 1fr));">
                                 ${tracks.map(t => `
                                     <div class="audio-item">
                                         <iframe src="${t.url}" frameborder="0" scrolling="no"></iframe>
@@ -374,7 +376,6 @@
                         `;
                     }
                     else if (section.type === 'contact') {
-                        // Contact form – hardcoded endpoint
                         contentHtml = `
                             <h2>${section.title}</h2>
                             ${section.text ? marked.parse(section.text) : ''}
@@ -391,7 +392,6 @@
                                 </form>
                             </div>
                         `;
-                        // Attach submit handler after rendering
                         setTimeout(() => {
                             const form = document.getElementById(`contact-form-${idx}`);
                             const status = document.getElementById(`form-status-${idx}`);
@@ -436,7 +436,7 @@
                 const header = document.querySelector('.site-header');
                 const headerHeight = header.offsetHeight;
 
-                // Click handlers with offset to avoid header covering content
+                // Click handlers with offset
                 const heroElem = document.getElementById('hero-section');
                 const scrollContent = document.getElementById('scroll-content');
                 document.querySelectorAll('.nav-links a').forEach(link => {
@@ -446,9 +446,7 @@
                         if (targetId === 'hero') {
                             heroElem.style.display = 'block';
                             sections.forEach(s => s.classList.remove('active'));
-                            // Scroll to top (hero)
                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                            // Remove padding from scroll-content when hero is visible
                             scrollContent.classList.remove('with-padding');
                         } else {
                             heroElem.style.display = 'none';
@@ -456,18 +454,16 @@
                             const activeSection = document.getElementById(targetId);
                             if (activeSection) {
                                 activeSection.classList.add('active');
-                                // Scroll so that the section appears below the header
                                 const elementPosition = activeSection.getBoundingClientRect().top + window.pageYOffset;
                                 const offsetPosition = elementPosition - headerHeight;
                                 window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                             }
-                            // Add padding to scroll-content so content doesn't hide behind header when hero hidden
                             scrollContent.classList.add('with-padding');
                         }
                     });
                 });
 
-                // Initial state: show hero, hide all sections
+                // Initial state
                 heroElem.style.display = 'block';
                 document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
                 scrollContent.classList.remove('with-padding');
