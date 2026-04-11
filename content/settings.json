@@ -56,7 +56,7 @@
     },
     {
       "type": "audio_grid",
-      "title": "SoundCloud Playlist",
+      "title": "Audio",
       "layout": "list",
       "width": "100%",
       "tracks": [
