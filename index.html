@@ -177,7 +177,7 @@
         }
         .audio-item iframe {
             width: 100%;
-            height: 166px;
+            height: 300px;   /* increased for playlist visibility */
             border: none;
         }
         .caption {
@@ -241,6 +241,7 @@
             .text p { max-width: 100%; }
             .text h1 { font-size: calc(var(--heading-size) * 0.7); }
             .video-grid, .audio-grid { grid-template-columns: 1fr; }
+            .audio-item iframe { height: 280px; }
         }
     </style>
 </head>
@@ -276,19 +277,13 @@
             return url;
         }
 
-        // Convert SoundCloud track URL to embed widget URL
+        // Convert SoundCloud URL (track or playlist) to embed widget URL
         function convertSoundCloudUrl(url) {
             if (!url) return url;
-            // If it's already an embed URL or widget URL, return as is
-            if (url.includes('w.soundcloud.com/player') || url.includes('embed')) return url;
-            // If it's a regular SoundCloud track URL (e.g., https://soundcloud.com/user/track)
-            if (url.includes('soundcloud.com/') && !url.includes('/sets/')) {
-                // Encode the URL and use the widget endpoint
-                const encodedUrl = encodeURIComponent(url);
-                return `https://w.soundcloud.com/player/?url=${encodedUrl}&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&visual=true`;
-            }
-            // If it's a set/playlist
-            if (url.includes('/sets/')) {
+            // Already an embed or widget?
+            if (url.includes('w.soundcloud.com/player')) return url;
+            // Regular SoundCloud URL (track or set)
+            if (url.includes('soundcloud.com/')) {
                 const encodedUrl = encodeURIComponent(url);
                 return `https://w.soundcloud.com/player/?url=${encodedUrl}&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&visual=true`;
             }
