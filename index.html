@@ -350,7 +350,13 @@
                     let title = section.title || 'Untitled';
 
                     if (section.type === 'text') {
-                        contentHtml = marked.parse(section.body || '');
+                        let parsedHtml = marked.parse(section.body || '');
+                        // Apply custom font size if provided
+                        if (section.text_size) {
+                            // Wrap the entire parsed content in a div with inline style
+                            parsedHtml = `<div style="font-size: ${section.text_size};">${parsedHtml}</div>`;
+                        }
+                        contentHtml = parsedHtml;
                     } 
                     else if (section.type === 'video_grid') {
                         const videos = section.videos || [];
