@@ -6,7 +6,7 @@
     "credit": "",
     "width": "100%",
     "height": "100vh",
-    "fit": "scale-down",
+    "fit": "cover",
     "alignment": "center"
   },
   "theme": {
@@ -15,8 +15,8 @@
     "accent": "#8a8787",
     "heading_font": "Cormorant Garamond, serif",
     "body_font": "Inter, sans-serif",
-    "heading_size": "3rem",
-    "body_font_size": "1rem"
+    "heading_size": "3.5rem",
+    "body_font_size": "1.2rem"
   },
   "social_links": {
     "instagram": "https://www.instagram.com/a.feefifofum/",
@@ -25,18 +25,6 @@
     "email": ""
   },
   "sections": [
-    {
-      "type": "video_grid",
-      "title": "Sound Design Reels",
-      "layout": "list",
-      "width": "100%",
-      "videos": [
-        {
-          "url": "https://www.youtube.com/embed/zOXvSNcMYCc",
-          "caption": ""
-        }
-      ]
-    },
     {
       "type": "video_grid",
       "title": "Multi Media",
@@ -50,25 +38,38 @@
       ]
     },
     {
-      "type": "audio_grid",
+      "type": "video_grid",
+      "title": "Sound Design Reels",
       "layout": "list",
       "width": "100%",
-      "tracks": [
+      "videos": [
         {
-          "url": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A1062812098&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+          "url": "https://www.youtube.com/embed/zOXvSNcMYCc",
+          "caption": "Sound Design Reel"
         }
-      ],
-      "title": "Music"
+      ]
     },
     {
       "type": "text",
       "title": "Bio / CV",
-      "body": "\n\n\n\n\n\n\n\n\n\n\n\n**Biography**\n\nArash Famiilirani is a Montreal-based electroacoustic composer and sound artist whose work explores the boundaries between perception, time, and minimal sonic materials. A graduate of Concordia University’s Bachelor of Fine Arts program in Electroacoustic Studies, Famiilirani’s practice draws from both experimental composition and attentive listening, transforming subtle gestures and everyday sounds into immersive auditory experiences. His recent works investigate psychoacoustic phenomena and the tension between structure and stillness, inviting audiences to engage with sound as a living, perceptual field.\n\n**Education**\n\nBachelor of Fine Arts 2016–2021\\\nElectroacoustic Studies\\\nConcordia University, Montreal, Quebec\n\n**Performances**\n\n* Sound Engineer, Concordia Chamber Jazz Ensemble, Oscar Peterson Concert Hall, Montreal, 2022\n* Sound Engineer, Concordia Choir and Chamber Choir, Oscar Peterson Concert Hall, Montreal, 2021\n* Composer, 60x60 Concordia, Montreal, 2020\n* Composer, 60x60 Concordia, Montreal, 2019\n* Live Sound Designer/Performer, CLOrk goes Free Jazz, with Michael Pinsonneault and Eden Bahar, Concordia University, Montreal, 2019\n* Composer, 60x60 Concordia, Montreal, 2018\n* Producing Station IDs for radio CJLO 1690, Montreal, 2018\n* Live Sound Designer/Performer, Concordia Laptop Orchestra with Andrea Young, Concordia University, Montreal, 2018\n* Live Sound Designer/Performer, Set Phasers To Stun: CLOrk, Amanda Christie, & Damaris Baker, Eastern Bloc, Montreal, 2017\n* Composer and Sound Artist, Darchin Duo, Tehran, Iran, 2007–2015\n* Performer, Jazz Quintet, Da House, Tehran, Iran, 2014\n* Performer, Jazz Trio, Shamlou, Tehran, Iran, 2014\n* Performer, Jazz Quartet Orf, Tehran, Iran, 2012\n* Performer, Tehran Conservatoire Choir, Tehran University, Tehran, Iran, 2011"
+      "body": "**Biography**\n\nArash Famiilirani is a Montreal-based electroacoustic composer and sound artist... (your full bio here)"
+    },
+    {
+      "type": "audio_grid",
+      "title": "SoundCloud Playlist",
+      "layout": "list",
+      "width": "100%",
+      "tracks": [
+        {
+          "url": "https://soundcloud.com/afamiil-irani/sets/my-playlist",
+          "caption": "My Field Recordings"
+        }
+      ]
     },
     {
       "type": "contact",
       "title": "Contact",
-      "text": ""
+      "text": "Feel free to reach out via the form below."
     }
   ]
 }
