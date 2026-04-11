@@ -177,7 +177,7 @@
         }
         .audio-item iframe {
             width: 100%;
-            height: 300px;   /* increased for playlist visibility */
+            height: 300px;
             border: none;
         }
         .caption {
@@ -258,7 +258,6 @@
     </div>
 
     <script>
-        // Convert YouTube watch/shorts to embed URL
         function convertYouTubeUrl(url) {
             if (!url) return url;
             if (url.includes('/embed/') || url.includes('youtube.com/embed/')) return url;
@@ -277,12 +276,9 @@
             return url;
         }
 
-        // Convert SoundCloud URL (track or playlist) to embed widget URL
         function convertSoundCloudUrl(url) {
             if (!url) return url;
-            // Already an embed or widget?
             if (url.includes('w.soundcloud.com/player')) return url;
-            // Regular SoundCloud URL (track or set)
             if (url.includes('soundcloud.com/')) {
                 const encodedUrl = encodeURIComponent(url);
                 return `https://w.soundcloud.com/player/?url=${encodedUrl}&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&visual=true`;
@@ -308,11 +304,9 @@
                     if (data.theme.body_font_size) root.setProperty('--body-font-size', data.theme.body_font_size);
                 }
 
-                // Site name
                 const siteName = data.site_name || 'ARASH FAMIILIRANI';
                 document.getElementById('logo-text').textContent = siteName;
 
-                // Social icons
                 const social = data.social_links || {};
                 const socialContainer = document.getElementById('social-icons');
                 const socialLinks = [];
@@ -323,7 +317,6 @@
                 if (social.email) socialLinks.push(`<a href="mailto:${social.email}"><i class="fas fa-envelope"></i></a>`);
                 socialContainer.innerHTML = socialLinks.join('');
 
-                // Copyright
                 const currentYear = new Date().getFullYear();
                 document.getElementById('footer').innerHTML = `<p>© ${currentYear} Arash Famiilirani. All rights reserved.</p>`;
 
@@ -331,29 +324,14 @@
                 const hero = data.hero || {};
                 const heroContainer = document.getElementById('hero-section');
                 const heroType = hero.type || 'image';
-
                 if (heroType === 'video' && hero.video) {
-                    heroContainer.innerHTML = `
-                        <video autoplay loop muted playsinline>
-                            <source src="${hero.video}" type="video/mp4">
-                        </video>
-                        ${hero.credit ? `<div class="credit">${hero.credit}</div>` : ''}
-                    `;
-                    heroContainer.style.cssText = `
-                        width: ${hero.width || '100%'};
-                        height: ${hero.height || '100vh'};
-                    `;
+                    heroContainer.innerHTML = `<video autoplay loop muted playsinline><source src="${hero.video}" type="video/mp4"></video>${hero.credit ? `<div class="credit">${hero.credit}</div>` : ''}`;
+                    heroContainer.style.cssText = `width: ${hero.width || '100%'}; height: ${hero.height || '100vh'};`;
                     heroContainer.style.setProperty('--hero-fit', hero.fit || 'cover');
                     heroContainer.style.setProperty('--hero-align', hero.alignment || 'center');
                 } else if (hero.image) {
-                    heroContainer.innerHTML = `
-                        <img src="${hero.image}" alt="Hero">
-                        ${hero.credit ? `<div class="credit">${hero.credit}</div>` : ''}
-                    `;
-                    heroContainer.style.cssText = `
-                        width: ${hero.width || '100%'};
-                        height: ${hero.height || '100vh'};
-                    `;
+                    heroContainer.innerHTML = `<img src="${hero.image}" alt="Hero">${hero.credit ? `<div class="credit">${hero.credit}</div>` : ''}`;
+                    heroContainer.style.cssText = `width: ${hero.width || '100%'}; height: ${hero.height || '100vh'};`;
                     heroContainer.style.setProperty('--hero-fit', hero.fit || 'cover');
                     heroContainer.style.setProperty('--hero-align', hero.alignment || 'center');
                 } else {
@@ -364,7 +342,6 @@
                 const sections = data.sections || [];
                 const mainContainer = document.getElementById('main-content');
                 mainContainer.innerHTML = '';
-
                 const sectionsData = [];
 
                 sections.forEach((section, idx) => {
@@ -380,52 +357,17 @@
                         const layout = section.layout === 'list' ? 'video-list' : 'video-grid';
                         const videoWidth = section.width || '100%';
                         const gridStyle = layout === 'video-grid' ? `grid-template-columns: repeat(auto-fill, minmax(${videoWidth === '100%' ? '300px' : videoWidth}, 1fr));` : '';
-                        contentHtml = `
-                            <h2>${section.title}</h2>
-                            <div class="${layout}" style="${gridStyle}">
-                                ${videos.map(v => `
-                                    <div class="video-item">
-                                        <iframe src="${convertYouTubeUrl(v.url)}" frameborder="0" allowfullscreen></iframe>
-                                        ${v.caption ? `<div class="caption">${v.caption}</div>` : ''}
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `;
+                        contentHtml = `<h2>${section.title}</h2><div class="${layout}" style="${gridStyle}">${videos.map(v => `<div class="video-item"><iframe src="${convertYouTubeUrl(v.url)}" frameborder="0" allowfullscreen></iframe>${v.caption ? `<div class="caption">${v.caption}</div>` : ''}</div>`).join('')}</div>`;
                     }
                     else if (section.type === 'audio_grid') {
                         const tracks = section.tracks || [];
                         const layout = section.layout === 'list' ? 'audio-list' : 'audio-grid';
                         const audioWidth = section.width || '100%';
                         const gridStyle = layout === 'audio-grid' ? `grid-template-columns: repeat(auto-fill, minmax(${audioWidth === '100%' ? '300px' : audioWidth}, 1fr));` : '';
-                        contentHtml = `
-                            <h2>${section.title}</h2>
-                            <div class="${layout}" style="${gridStyle}">
-                                ${tracks.map(t => `
-                                    <div class="audio-item">
-                                        <iframe src="${convertSoundCloudUrl(t.url)}" frameborder="0" scrolling="no"></iframe>
-                                        ${t.caption ? `<div class="caption">${t.caption}</div>` : ''}
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `;
+                        contentHtml = `<h2>${section.title}</h2><div class="${layout}" style="${gridStyle}">${tracks.map(t => `<div class="audio-item"><iframe src="${convertSoundCloudUrl(t.url)}" frameborder="0" scrolling="no"></iframe>${t.caption ? `<div class="caption">${t.caption}</div>` : ''}</div>`).join('')}</div>`;
                     }
                     else if (section.type === 'contact') {
-                        contentHtml = `
-                            <h2>${section.title}</h2>
-                            ${section.text ? marked.parse(section.text) : ''}
-                            <div class="contact-form">
-                                <form id="contact-form-${idx}" action="https://formspree.io/f/xreobwzr" method="POST">
-                                    <label>Name</label>
-                                    <input type="text" name="name" required>
-                                    <label>Email</label>
-                                    <input type="email" name="_replyto" required>
-                                    <label>Message</label>
-                                    <textarea name="message" rows="5" required></textarea>
-                                    <button type="submit">Send</button>
-                                    <div class="form-status" id="form-status-${idx}"></div>
-                                </form>
-                            </div>
-                        `;
+                        contentHtml = `<h2>${section.title}</h2>${section.text ? marked.parse(section.text) : ''}<div class="contact-form"><form id="contact-form-${idx}" action="https://formspree.io/f/xreobwzr" method="POST"><label>Name</label><input type="text" name="name" required><label>Email</label><input type="email" name="_replyto" required><label>Message</label><textarea name="message" rows="5" required></textarea><button type="submit">Send</button><div class="form-status" id="form-status-${idx}"></div></form></div>`;
                         setTimeout(() => {
                             const form = document.getElementById(`contact-form-${idx}`);
                             const status = document.getElementById(`form-status-${idx}`);
@@ -434,11 +376,7 @@
                                     e.preventDefault();
                                     const formData = new FormData(form);
                                     try {
-                                        const response = await fetch(form.action, {
-                                            method: 'POST',
-                                            body: formData,
-                                            headers: { 'Accept': 'application/json' }
-                                        });
+                                        const response = await fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
                                         if (response.ok) {
                                             status.innerHTML = '<p style="color: green;">Message sent! Thank you.</p>';
                                             form.reset();
@@ -461,17 +399,14 @@
                     sectionsData.push({ id: sectionId, title: title });
                 });
 
-                // Navigation – only custom sections (no Home tab)
                 const navContainer = document.getElementById('nav-links');
                 navContainer.innerHTML = sectionsData.map(item => `<a data-section="${item.id}">${item.title}</a>`).join('');
 
-                // Click handler for logo (acts as Home)
                 const logo = document.querySelector('.site-title');
                 const heroElem = document.getElementById('hero-section');
                 const sectionsElements = document.querySelectorAll('.section');
                 const scrollContent = document.getElementById('scroll-content');
 
-                // Set header height for CSS variables and dynamic margin
                 function setHeaderHeight() {
                     const header = document.querySelector('.site-header');
                     const height = header.offsetHeight;
@@ -487,7 +422,6 @@
                     scrollContent.classList.remove('with-margin');
                 });
 
-                // Click handlers for section tabs
                 document.querySelectorAll('.nav-links a').forEach(link => {
                     link.addEventListener('click', (e) => {
                         const targetId = link.getAttribute('data-section');
@@ -502,7 +436,6 @@
                     });
                 });
 
-                // Initial state: show hero, hide all sections, no margin
                 heroElem.style.display = 'block';
                 sectionsElements.forEach(s => s.classList.remove('active'));
                 scrollContent.classList.remove('with-margin');
