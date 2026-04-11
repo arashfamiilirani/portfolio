@@ -39,13 +39,16 @@
     },
     {
       "type": "video_grid",
-      "title": "Sound Design Reels",
+      "title": "Sound Design",
       "layout": "list",
       "width": "100%",
       "videos": [
         {
           "url": "https://www.youtube.com/embed/zOXvSNcMYCc",
           "caption": "Sound Design Reel"
+        },
+        {
+          "url": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A1062812098&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
         }
       ]
     },
@@ -56,7 +59,7 @@
       "width": "100%",
       "tracks": [
         {
-          "url": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A1062812098&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
+          "url": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A698183802&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true",
           "caption": ""
         }
       ]
