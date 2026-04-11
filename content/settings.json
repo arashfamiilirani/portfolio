@@ -51,8 +51,8 @@
     },
     {
       "type": "audio_grid",
-      "layout": "list",
-      "width": "100%",
+      "layout": "grid",
+      "width": "50%",
       "tracks": [
         {
           "url": "https://soundcloud.com/afamiil-irani/shagadagadagaaaaa?si=1b80a4acca1c4d1d8e9514407569a295&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
