@@ -63,7 +63,7 @@
     {
       "type": "audio_grid",
       "title": "Music",
-      "layout": "grid",
+      "layout": "list",
       "width": "100%",
       "tracks": [
         {
