@@ -70,6 +70,7 @@ collections:
                 fields:
                   - { label: "Tab Title", name: "title", widget: "string" }
                   - { label: "Content (Markdown)", name: "body", widget: "markdown", default_view: "visual" }
+                  - { label: "Font Size (e.g., 1rem, 0.9rem)", name: "text_size", widget: "string", required: false, hint: "Leave empty to use global body font size" }
 
               - label: "Video Grid"
                 name: "video_grid"
