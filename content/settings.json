@@ -51,7 +51,7 @@
     },
     {
       "type": "audio_grid",
-      "layout": "grid",
+      "layout": "list",
       "width": "100%",
       "tracks": [
         {
