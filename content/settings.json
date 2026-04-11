@@ -41,7 +41,7 @@
       "type": "video_grid",
       "title": "Sound Design",
       "layout": "grid",
-      "width": "150%",
+      "width": "100%",
       "videos": [
         {
           "url": "https://www.youtube.com/embed/zOXvSNcMYCc",
