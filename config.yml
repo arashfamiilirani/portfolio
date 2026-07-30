@@ -1,1 +1,105 @@
+backend:
+  name: github
+  repo: arashfamiilirani/portfolio
+  branch: main
+  base_url: https://www.arashfamiilirani.com
+  auth_endpoint: /api/auth
 
+media_folder: "assets/img"
+public_folder: "/assets/img"
+
+editor:
+  preview: false
+
+collections:
+  - name: "pages"
+    label: "Site Builder"
+    files:
+      - name: "home"
+        label: "Main Page"
+        file: "content/settings.json"
+        fields:
+          - { label: "Site Name (Logo & Home)", name: "site_name", widget: "string", default: "ARASH FAMIILIRANI" }
+
+          # Hero Background
+          - label: "Hero Background"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Type", name: "type", widget: "select", options: ["image", "video"], default: "image" }
+              - { label: "Image or GIF", name: "image", widget: "image", required: false }
+              - { label: "Video URL (MP4/WebM)", name: "video", widget: "string", required: false }
+              - { label: "Credit", name: "credit", widget: "string", required: false }
+              - { label: "Width", name: "width", widget: "string", default: "100%" }
+              - { label: "Height", name: "height", widget: "string", default: "100vh" }
+              - { label: "Object Fit", name: "fit", widget: "select", options: ["cover", "contain", "fill", "scale-down"], default: "cover" }
+              - { label: "Alignment", name: "alignment", widget: "select", options: ["center", "left", "right"], default: "center" }
+
+          # Theme
+          - label: "Theme"
+            name: "theme"
+            widget: "object"
+            fields:
+              - { label: "Background Color", name: "bg", widget: "color", default: "#ffffff" }
+              - { label: "Text Color", name: "text", widget: "color", default: "#111111" }
+              - { label: "Accent Color", name: "accent", widget: "color", default: "#000000" }
+              - { label: "Heading Font", name: "heading_font", widget: "select", options: ["Cormorant Garamond, serif", "Georgia, serif", "Playfair Display, serif", "Inter, sans-serif"], default: "Cormorant Garamond, serif" }
+              - { label: "Body Font", name: "body_font", widget: "select", options: ["Inter, sans-serif", "Helvetica, sans-serif", "Open Sans, sans-serif"], default: "Inter, sans-serif" }
+              - { label: "Heading Size", name: "heading_size", widget: "string", default: "4.5rem" }
+              - { label: "Body Text Size", name: "body_font_size", widget: "string", default: "1.2rem" }
+
+          # Social links
+          - label: "Social Links"
+            name: "social_links"
+            widget: "object"
+            fields:
+              - { label: "Instagram URL", name: "instagram", widget: "string", required: false }
+              - { label: "YouTube URL", name: "youtube", widget: "string", required: false }
+              - { label: "SoundCloud URL", name: "soundcloud", widget: "string", required: false }
+              - { label: "Spotify URL", name: "spotify", widget: "string", required: false }
+              - { label: "Email", name: "email", widget: "string", required: false }
+
+          # Sections (tabs)
+          - label: "Tabs (your custom sections)"
+            name: "sections"
+            widget: "list"
+            summary: '{{fields.title}} ({{fields.type}})'
+            types:
+              - label: "Text Section"
+                name: "text"
+                fields:
+                  - { label: "Tab Title", name: "title", widget: "string" }
+                  - { label: "Content (Markdown)", name: "body", widget: "markdown", default_view: "visual" }
+                  - { label: "Font Size (e.g., 1rem, 0.9rem)", name: "text_size", widget: "string", required: false, hint: "Leave empty to use global body font size" }
+
+              - label: "Video Grid"
+                name: "video_grid"
+                fields:
+                  - { label: "Tab Title", name: "title", widget: "string" }
+                  - { label: "Layout", name: "layout", widget: "select", options: ["grid", "list"], default: "grid" }
+                  - { label: "Video Width", name: "width", widget: "string", default: "100%" }
+                  - label: "Videos"
+                    name: "videos"
+                    widget: "list"
+                    fields:
+                      - { label: "Embed URL (YouTube/Vimeo)", name: "url", widget: "string" }
+                      - { label: "Caption", name: "caption", widget: "string", required: false }
+
+              - label: "Audio Grid"
+                name: "audio_grid"
+                fields:
+                  - { label: "Tab Title", name: "title", widget: "string" }
+                  - { label: "Layout", name: "layout", widget: "select", options: ["grid", "list"], default: "grid" }
+                  - { label: "Audio Width", name: "width", widget: "string", default: "100%" }
+                  - label: "Tracks"
+                    name: "tracks"
+                    widget: "list"
+                    fields:
+                      - { label: "SoundCloud URL (track or playlist)", name: "url", widget: "string" }
+                      - { label: "Details", name: "caption", widget: "string", required: false }
+
+              - label: "Contact Form"
+                name: "contact"
+                fields:
+                  - { label: "Tab Title", name: "title", widget: "string", default: "Contact" }
+                  - { label: "Intro Text", name: "text", widget: "markdown", required: false }
